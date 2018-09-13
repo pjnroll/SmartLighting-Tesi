@@ -22,9 +22,24 @@ public class PierOS {
         HashSet<Sensor> sensors = new HashSet<>();
         sensors.add(s1);
         sensors.add(s2);
-        controller.addComponent(battery);
+        try {
+            controller.addComponent(battery);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         controller.setSensors(sensors);
+//        controller.addComponent(battery);
+        try {
+            controller.addComponent(s1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        try {
+            controller.addComponent(battery);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.out.println(controller);
 
     }

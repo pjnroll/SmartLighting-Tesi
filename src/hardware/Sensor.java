@@ -72,27 +72,27 @@ public class Sensor extends Component {
         return getAttached();
     }
 
-    /**
-     * This method return true iff it can attach the Sensor to the Controller
-     *
-     * Maybe deprecated
-     * @param controller
-     * @return
-     */
-    public boolean attachTo(Controller controller) {
-        boolean toRet = false;
-
-        if (controller != null && !isAttached()) {
-            controller.getSensors().add(this);
-            setAttached(true);
-            this.controller = controller;
-
-            toRet = true;
-        }
-        return toRet;
-    }
+//    /**
+//     * This method return true iff it can attach the Sensor to the Controller
+//     *
+//     * Maybe deprecated
+//     * @param controller
+//     * @return
+//     */
+//    public boolean attachTo(Controller controller) {
+//        boolean toRet = false;
+//
+//        if (controller != null && !isAttached()) {
+//            controller.getSensors().add(this);
+//            setAttached(true);
+//            this.controller = controller;
+//
+//            toRet = true;
+//        }
+//        return toRet;
+//    }
 
     public String toString() {
-        return "[Sensore: " + sensor_type.name() + " range " + minThreshold + "-" + maxThreshold + "]";
+        return "(Sensore: " + sensor_type.name() + " range " + minThreshold + "-" + maxThreshold + ")";
     }
 }

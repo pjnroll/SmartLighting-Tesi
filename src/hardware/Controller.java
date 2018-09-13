@@ -64,14 +64,20 @@ public class Controller extends Component {
 
     public void setSensors(HashSet<Sensor> sensors) {
         this.sensors = sensors;
+        for (Sensor s : sensors) {
+            s.setController(this);
+            s.setAttached(true);
+        }
     }
 
     private void setLamp(Lamp lamp) {
         this.lamp = lamp;
+        lamp.setAttached(true);
     }
 
     private void setBattery(Battery battery) {
         this.battery = battery;
+        battery.setAttached(true);
     }
     /********************/
 
@@ -79,20 +85,26 @@ public class Controller extends Component {
      * This method lets adding a Component to the Controller
      * @param c
      */
-    public void addComponent(Component c) {
+    public void addComponent(Component c) throws Exception {
         if (c != null && !c.getAttached()) {
             if (c instanceof Sensor) {
                 sensors.add((Sensor) c);
                 ((Sensor) c).setController(this);
             } else if (c instanceof Lamp) {
-                setLamp(lamp);
+                setLamp((Lamp) c);
+                ((Lamp) c).setController(this);
             } else if (c instanceof Battery) {
-                setBattery(battery);
+                setBattery((Battery) c);
+                ((Battery) c).setController(this);
             }
+        } else if (c == null) {
+            throw new NullPointerException("Il componente è nullo");
+        } else {
+            throw new Exception("Il componente " + c + " è gia collegato");
         }
     }
 
     public String toString() {
-        return "{Controller: " + name + ", " + sensors + ", " + lamp + "}";
+        return "[Controller: " + name + ", " + sensors + ", " + lamp + ", " + battery + "]";
     }
 }

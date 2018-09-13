@@ -7,6 +7,8 @@ public class Battery extends Component {
     private String name;
     private int voltage;
 
+    private Controller controller;
+
     public Battery(String name, int voltage) {
         this.name = name;
         this.voltage = voltage;
@@ -40,9 +42,13 @@ public class Battery extends Component {
     public int getVoltage() {
         return voltage;
     }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
     /********************/
 
     public String toString() {
-        return "[Batteria: " + name + " " + voltage + " V]";
+        return "(Batteria: " + name + " " + voltage + " V)";
     }
 }

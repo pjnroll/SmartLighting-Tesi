@@ -10,6 +10,7 @@ public class Component {
     public boolean getAttached() {
         return attached;
     }
+
     /*public void attach(Component component) {
         attached = true;
 

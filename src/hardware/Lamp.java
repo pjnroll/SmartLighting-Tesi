@@ -29,13 +29,10 @@ public class Lamp extends Component {
     public void setController(Controller controller) {
         this.controller = controller;
     }
-
     /********************/
-
-
 
     @Override
     public String toString() {
-        return "[Lampada: " + lamp_type.name() + " " + watt + " W]";
+        return "(Lampada: " + lamp_type.name() + " " + watt + " W)";
     }
 }
