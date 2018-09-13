@@ -24,6 +24,24 @@ public class Battery extends Component {
         this(name,0);
     }
 
+    /** GETTERS SETTERS */
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setVoltage(int voltage) {
+        this.voltage = voltage;
+    }
+
+    public int getVoltage() {
+        return voltage;
+    }
+    /********************/
+
     public String toString() {
         return "[Batteria: " + name + " " + voltage + " V]";
     }
