@@ -7,7 +7,7 @@ public class Street {
     private int id;
 
     private String name;
-    LinkedList<Streetlight> streetlights;
+    private LinkedList<Streetlight> streetlights;
 
     public Street(String name, LinkedList<Streetlight> streetlights) {
         id = count_id;
@@ -42,11 +42,23 @@ public class Street {
 
     }
 
+    public void turnOn() {
+        for (Streetlight s : streetlights) {
+            s.turnOnLamp();
+        }
+    }
+
+    public void turnOff() {
+        for (Streetlight s : streetlights) {
+            s.turnOffLamp();
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder toRet = new StringBuilder();
         for (Streetlight s : streetlights) {
-            toRet.append(s.getController().getLamp().getId());
+            toRet.append(s.getController().getLamp().getIntensity()).append("\t");
         }
 
         return toRet.toString();

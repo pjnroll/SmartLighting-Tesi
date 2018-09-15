@@ -1,6 +1,7 @@
 package hardware;
 
 import exceptions.ControllerAlreadyAttachedException;
+import helper.LAMP_STATUS;
 
 public class Streetlight {
     private static int count_id = 0;
@@ -66,6 +67,24 @@ public class Streetlight {
             controller.setStreetlight(null);
         }
     }
+
+
+    public void turnOnLamp() {
+        Lamp toTurnOn = getController().getLamp();
+        if (toTurnOn != null && toTurnOn.getStatus().equals(LAMP_STATUS.OFF)) {
+            toTurnOn.setStatus(LAMP_STATUS.ON);
+            toTurnOn.setIntensity(20);
+        }
+    }
+
+    public void turnOffLamp() {
+        Lamp toTurnOff = getController().getLamp();
+        if (toTurnOff != null && toTurnOff.getStatus().equals(LAMP_STATUS.ON)) {
+            toTurnOff.setIntensity(0);
+            toTurnOff.setStatus(LAMP_STATUS.OFF);
+        }
+    }
+
 
     public String toString() {
         return "{Lampione: " + id + " " + controller + "}";

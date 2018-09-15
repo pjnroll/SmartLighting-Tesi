@@ -1,6 +1,7 @@
 package hardware;
 
 import exceptions.ComponentAlreadyAttachedException;
+import helper.LAMP_STATUS;
 
 import java.util.HashSet;
 
@@ -56,6 +57,10 @@ public class Controller {
     }
 
     /** GETTERS SETTERS */
+    public int getId() {
+        return id;
+    }
+
     public HashSet<Component> getComponents() {
         return components;
     }
@@ -122,6 +127,10 @@ public class Controller {
 
     public void setStreetlight(Streetlight streetlight) {
         this.streetlight = streetlight;
+    }
+
+    public Streetlight getStreetlight() {
+        return streetlight;
     }
 
     public void setAttached(boolean attached) {

@@ -1,7 +1,19 @@
 package helper;
 
 public enum Intensity {
-    INTENSITY_0(0),
+    INTENSITY_20(20), INTENSITY_100(100);
+
+    private int intensity;
+
+    Intensity(int intensity) {
+        this.intensity = intensity;
+    }
+
+    public int getIntensity() {
+        return intensity;
+    }
+
+    /*INTENSITY_0(0),
     INTENSITY_1(9),
     INTENSITY_2(15),
     INTENSITY_3(24),
@@ -26,5 +38,5 @@ public enum Intensity {
     }
     Intensity(int intensity) {
         this.intensity = intensity;
-    }
+    }*/
 }

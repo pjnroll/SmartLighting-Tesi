@@ -92,5 +92,13 @@ public class PierOS {
         Street S1 = new Street("Street", street);
 
         System.out.println(S1);
+
+        S1.turnOn();
+
+        System.out.println(S1);
+
+        S1.turnOff();
+
+        System.out.println(S1);
     }
 }
