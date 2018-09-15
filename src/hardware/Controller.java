@@ -1,5 +1,7 @@
 package hardware;
 
+import exceptions.ComponentAlreadyAttachedException;
+
 import java.util.HashSet;
 
 public class Controller {
@@ -12,37 +14,45 @@ public class Controller {
     private Lamp lamp;
     private Battery battery;
 
-    public Controller(String name, HashSet<Component> components) {
-        this.name = name;
-        this.setComponents(components);
+    /**
+     * Full constructor
+     * @param name
+     * @param components
+     */
+    public Controller(String name, HashSet<Component> components) throws Exception {
         id = count_id;
         count_id++;
-    }
 
-    public Controller(String name, Lamp lamp) {
-        this.name = name;
-        components = new HashSet<>();
-        this.lamp = lamp;
-    }
-
-    public Controller(String name, Battery battery) {
         setName(name);
-        setBattery(battery);
+        setComponents(components);
     }
 
+    /**
+     * Contructor with just one component (a sensor, lamp or battery)
+     * @param name
+     * @param component
+     * @throws Exception
+     */
+    public Controller(String name, Component component) throws Exception {
+        this(name);
+
+        setComponent(component);
+    }
+
+    /**
+     * Empty constructor
+     * @param name
+     */
     public Controller(String name) {
+        id = count_id;
+        count_id++;
+
         setName(name);
+        components = new HashSet<>();
+
     }
 
     /** GETTERS SETTERS */
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public HashSet<Component> getComponents() {
         return components;
     }
@@ -57,16 +67,6 @@ public class Controller {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setComponents(HashSet<Component> components) {
-        for (Component c : components) {
-            try {
-                addComponent(c);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     private void setSensor(Sensor sensor) {
@@ -86,13 +86,12 @@ public class Controller {
         battery.setAttached(true);
         battery.setController(this);
     }
-    /********************/
 
     /**
      * This method lets adding a Component to the Controller
      * @param c
      */
-    public void addComponent(Component c) throws Exception {
+    public void setComponent(Component c) throws Exception {
         if (c != null && !c.getAttached()) {
             if (c instanceof Sensor) {
                 setSensor((Sensor) c);
@@ -104,9 +103,20 @@ public class Controller {
         } else if (c == null) {
             throw new NullPointerException("Il componente è nullo");
         } else {
-            throw new Exception("Il componente " + c + " è gia collegato");
+            throw new ComponentAlreadyAttachedException(c);
         }
     }
+
+    public void setComponents(HashSet<Component> components) {
+        for (Component c : components) {
+            try {
+                setComponent(c);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     private void remSensor(Sensor sensor) {
         if (sensor.getAttached() && getComponents().contains(sensor)) {
@@ -147,6 +157,18 @@ public class Controller {
             throw new Exception("Il componente " + c + " è gia collegato");
         }
     }
+
+    public void remComponents() {
+        for (Component c : components) {
+            try {
+                remComponent(c);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    /********************/
+
 
     public String toString() {
         return "[Controller: " + name + ", " + components + ", " + lamp + ", " + battery + "]";
