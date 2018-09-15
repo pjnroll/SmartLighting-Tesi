@@ -14,17 +14,21 @@ public class Controller {
     private Lamp lamp;
     private Battery battery;
 
+    private boolean attached;
+    private Streetlight streetlight;
+
     /**
      * Full constructor
      * @param name
      * @param components
      */
     public Controller(String name, HashSet<Component> components) throws Exception {
-        id = count_id;
-        count_id++;
+        this(name);
 
-        setName(name);
         setComponents(components);
+
+        setAttached(false);
+        setStreetlight(null);
     }
 
     /**
@@ -117,14 +121,26 @@ public class Controller {
         }
     }
 
-
-    private void remSensor(Sensor sensor) {
-        if (sensor.getAttached() && getComponents().contains(sensor)) {
-            getComponents().remove(sensor);
-            sensor.setAttached(false);
-            sensor.setController(null);
-        }
+    public void setStreetlight(Streetlight streetlight) {
+        this.streetlight = streetlight;
     }
+
+    public void setAttached(boolean attached) {
+        this.attached = attached;
+    }
+
+    /********************/
+
+    /*
+    Methods to remove the components
+     */
+    private void remSensor(Sensor sensor) {
+    if (sensor.getAttached() && getComponents().contains(sensor)) {
+        getComponents().remove(sensor);
+        sensor.setAttached(false);
+        sensor.setController(null);
+    }
+}
 
     private void remLamp(Lamp lamp) {
         if (lamp.getAttached() && getLamp().equals(lamp)) {
@@ -167,8 +183,6 @@ public class Controller {
             }
         }
     }
-    /********************/
-
 
     public String toString() {
         return "[Controller: " + name + ", " + components + ", " + lamp + ", " + battery + "]";

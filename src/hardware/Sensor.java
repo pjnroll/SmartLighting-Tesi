@@ -22,6 +22,7 @@ public class Sensor extends Component {
         setMaxThreshold(maxThreshold);
 
         setAttached(false);
+        setController(null);
     }
 
     /** GETTERS SETTERS */

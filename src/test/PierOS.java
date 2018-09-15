@@ -9,12 +9,6 @@ import java.util.HashSet;
 public class PierOS {
     public static void main(String args[]) {
         Lamp lamp = new Lamp(LAMP_TYPE.LED, 25);
-        Controller controller = null;
-        try {
-            controller = new Controller("Arduino", lamp);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         Sensor s1 = new Sensor(SENSOR_TYPE.LDR, "LDR1", 0, 20);
         Sensor s2 = new Sensor(SENSOR_TYPE.PIR, "PIR1", 0, 20);
@@ -25,13 +19,18 @@ public class PierOS {
         components.add(lamp);
         components.add(battery);
 
-        controller.setComponents(components);
+        Controller controller = null;
+        try {
+            controller = new Controller("Arduino", components);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.out.println(controller);
 
-        controller.remComponents();
-        System.out.println(controller);
-
-
+        Streetlight streetlight = new Streetlight(controller);
+        Streetlight streetlight2 = new Streetlight(controller);
+        System.out.println(streetlight);
+        System.out.println(streetlight2);
 
 
     }

@@ -15,6 +15,9 @@ public class Lamp extends Component {
 
         setLamp_type(lamp_type);
         setWatt(watt);
+
+        setAttached(false);
+        setController(null);
     }
 
     /** GETTERS SETTERS */

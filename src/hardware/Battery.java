@@ -13,6 +13,9 @@ public class Battery extends Component {
 
         setName(name);
         setVoltage(voltage);
+
+        setAttached(false);
+        setController(null);
     }
 
     /**
