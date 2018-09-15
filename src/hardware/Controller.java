@@ -26,9 +26,6 @@ public class Controller {
         this(name);
 
         setComponents(components);
-
-        setAttached(false);
-        setStreetlight(null);
     }
 
     /**
@@ -54,6 +51,8 @@ public class Controller {
         setName(name);
         components = new HashSet<>();
 
+        setAttached(false);
+        setStreetlight(null);
     }
 
     /** GETTERS SETTERS */
@@ -129,6 +128,9 @@ public class Controller {
         this.attached = attached;
     }
 
+    public boolean getAttached() {
+        return attached;
+    }
     /********************/
 
     /*

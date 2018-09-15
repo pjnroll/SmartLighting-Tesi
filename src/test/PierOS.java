@@ -1,5 +1,6 @@
 package test;
 
+import exceptions.ControllerAlreadyAttachedException;
 import hardware.*;
 import helper.LAMP_TYPE;
 import helper.SENSOR_TYPE;
@@ -27,8 +28,18 @@ public class PierOS {
         }
         System.out.println(controller);
 
-        Streetlight streetlight = new Streetlight(controller);
-        Streetlight streetlight2 = new Streetlight(controller);
+        Streetlight streetlight = null;
+        try {
+            streetlight = new Streetlight(controller);
+        } catch (ControllerAlreadyAttachedException e) {
+            e.printStackTrace();
+        }
+        Streetlight streetlight2 = null;
+        try {
+            streetlight2 = new Streetlight(controller);
+        } catch (ControllerAlreadyAttachedException e) {
+            e.printStackTrace();
+        }
         System.out.println(streetlight);
         System.out.println(streetlight2);
 
