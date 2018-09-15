@@ -6,10 +6,11 @@ import helper.LAMP_TYPE;
 import helper.SENSOR_TYPE;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 
 public class PierOS {
     public static void main(String args[]) {
-        Lamp lamp = new Lamp(LAMP_TYPE.LED, 25);
+        /*Lamp lamp = new Lamp(LAMP_TYPE.LED, 25);
 
         Sensor s1 = new Sensor(SENSOR_TYPE.LDR, "LDR1", 0, 20);
         Sensor s2 = new Sensor(SENSOR_TYPE.PIR, "PIR1", 0, 20);
@@ -41,8 +42,55 @@ public class PierOS {
             e.printStackTrace();
         }
         System.out.println(streetlight);
-        System.out.println(streetlight2);
+        System.out.println(streetlight2);*/
 
+        Lamp[] lamps = new Lamp[20];
+        for (int i = 0; i < 20; i++) {
+            lamps[i] = new Lamp(LAMP_TYPE.LED, 25);
+        }
 
+        Sensor[] ldrSensors = new Sensor[20];
+        for (int i = 0; i < 20; i++) {
+            ldrSensors[i] = new Sensor(SENSOR_TYPE.LDR, ("LDR"+i), 0, 20);
+        }
+
+        Sensor[] pirSensors = new Sensor[20];
+        for (int i = 0; i < 20; i++) {
+            pirSensors[i] = new Sensor(SENSOR_TYPE.PIR, ("PIR"+i), 0, 20);
+        }
+
+        Battery[] batteries = new Battery[20];
+        for (int i = 0; i < 20; i++) {
+            batteries[i] = new Battery("BATT"+i, 9);
+        }
+
+        Controller[] controllers = new Controller[20];
+        for (int i = 0; i < 20; i++) {
+            HashSet<Component> components = new HashSet<>();
+            components.add(lamps[i]);
+            components.add(ldrSensors[i]);
+            components.add(pirSensors[i]);
+            components.add(batteries[i]);
+
+            controllers[i] = new Controller("CONTROLLER"+i, components);
+        }
+
+        Streetlight[] streetlights = new Streetlight[20];
+        for (int i = 0; i < 20; i++) {
+            try {
+                streetlights[i] = new Streetlight(controllers[i]);
+            } catch (ControllerAlreadyAttachedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        LinkedList<Streetlight> street = new LinkedList<>();
+        for (int i = 0; i < 20; i++) {
+            street.addLast(streetlights[i]);
+        }
+
+        Street S1 = new Street("Street", street);
+
+        System.out.println(S1);
     }
 }

@@ -22,7 +22,7 @@ public class Controller {
      * @param name
      * @param components
      */
-    public Controller(String name, HashSet<Component> components) throws Exception {
+    public Controller(String name, HashSet<Component> components) {
         this(name);
 
         setComponents(components);
