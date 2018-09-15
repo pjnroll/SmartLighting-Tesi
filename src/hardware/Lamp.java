@@ -3,10 +3,11 @@ package hardware;
 import helper.LAMP_TYPE;
 
 public class Lamp extends Component {
+    private static int count_id = 0;
+    private int id;
+
     private LAMP_TYPE lamp_type;
     private int watt;
-
-    private Controller controller;
 
     public Lamp(LAMP_TYPE lamp_type, int watt) {
         this.lamp_type = lamp_type;
@@ -20,14 +21,6 @@ public class Lamp extends Component {
 
     public int getWatt() {
         return watt;
-    }
-
-    public Controller getController() {
-        return controller;
-    }
-
-    public void setController(Controller controller) {
-        this.controller = controller;
     }
     /********************/
 

@@ -2,39 +2,36 @@ package hardware;
 
 import java.util.HashSet;
 
-public class Controller extends Component {
+public class Controller {
     private static int count_id = 0;
-
     private int id;
+
     private String name;
-    private HashSet<Sensor> sensors;
+    private HashSet<Component> components;
+
     private Lamp lamp;
     private Battery battery;
 
-    public Controller(String name, HashSet<Sensor> sensors, Lamp lamp, Battery battery) {
+    public Controller(String name, HashSet<Component> components) {
         this.name = name;
-        this.sensors = sensors;
-        this.lamp = lamp;
-        this.battery = battery;
-
+        this.setComponents(components);
         id = count_id;
         count_id++;
     }
 
-    public Controller(String name, HashSet<Sensor> sensors) {
-        this(name, sensors, null, null);
-    }
-
     public Controller(String name, Lamp lamp) {
-        this(name, new HashSet<>(), lamp, null);
+        this.name = name;
+        components = new HashSet<>();
+        this.lamp = lamp;
     }
 
     public Controller(String name, Battery battery) {
-        this(name, new HashSet<>(), null, battery);
+        setName(name);
+        setBattery(battery);
     }
 
     public Controller(String name) {
-        this(name, new HashSet<>(), null, null);
+        setName(name);
     }
 
     /** GETTERS SETTERS */
@@ -46,8 +43,8 @@ public class Controller extends Component {
         return name;
     }
 
-    public HashSet<Sensor> getSensors() {
-        return sensors;
+    public HashSet<Component> getComponents() {
+        return components;
     }
 
     public Lamp getLamp() {
@@ -62,22 +59,32 @@ public class Controller extends Component {
         this.name = name;
     }
 
-    public void setSensors(HashSet<Sensor> sensors) {
-        this.sensors = sensors;
-        for (Sensor s : sensors) {
-            s.setController(this);
-            s.setAttached(true);
+    public void setComponents(HashSet<Component> components) {
+        for (Component c : components) {
+            try {
+                addComponent(c);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    private void setSensor(Sensor sensor) {
+        components.add(sensor);
+        sensor.setAttached(true);
+        sensor.setController(this);
     }
 
     private void setLamp(Lamp lamp) {
         this.lamp = lamp;
         lamp.setAttached(true);
+        lamp.setController(this);
     }
 
     private void setBattery(Battery battery) {
         this.battery = battery;
         battery.setAttached(true);
+        battery.setController(this);
     }
     /********************/
 
@@ -88,14 +95,51 @@ public class Controller extends Component {
     public void addComponent(Component c) throws Exception {
         if (c != null && !c.getAttached()) {
             if (c instanceof Sensor) {
-                sensors.add((Sensor) c);
-                ((Sensor) c).setController(this);
+                setSensor((Sensor) c);
             } else if (c instanceof Lamp) {
                 setLamp((Lamp) c);
-                ((Lamp) c).setController(this);
             } else if (c instanceof Battery) {
                 setBattery((Battery) c);
-                ((Battery) c).setController(this);
+            }
+        } else if (c == null) {
+            throw new NullPointerException("Il componente è nullo");
+        } else {
+            throw new Exception("Il componente " + c + " è gia collegato");
+        }
+    }
+
+    private void remSensor(Sensor sensor) {
+        if (sensor.getAttached() && getComponents().contains(sensor)) {
+            getComponents().remove(sensor);
+            sensor.setAttached(false);
+            sensor.setController(null);
+        }
+    }
+
+    private void remLamp(Lamp lamp) {
+        if (lamp.getAttached() && getLamp().equals(lamp)) {
+            this.lamp = null;
+            lamp.setAttached(false);
+            lamp.setController(null);
+        }
+    }
+
+    private void remBattery(Battery battery) {
+        if (battery.getAttached() && getBattery().equals(battery)) {
+            this.battery = null;
+            battery.setAttached(false);
+            battery.setController(null);
+        }
+    }
+
+    public void remComponent(Component c) throws Exception {
+        if (c != null && c.getAttached() && c.getController().equals(this)) {
+            if (c instanceof Sensor) {
+                remSensor((Sensor) c);
+            } else if (c instanceof Lamp) {
+                remLamp((Lamp) c);
+            } else if (c instanceof Battery) {
+                remBattery((Battery) c);
             }
         } else if (c == null) {
             throw new NullPointerException("Il componente è nullo");
@@ -105,6 +149,6 @@ public class Controller extends Component {
     }
 
     public String toString() {
-        return "[Controller: " + name + ", " + sensors + ", " + lamp + ", " + battery + "]";
+        return "[Controller: " + name + ", " + components + ", " + lamp + ", " + battery + "]";
     }
 }

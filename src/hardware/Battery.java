@@ -2,12 +2,10 @@ package hardware;
 
 public class Battery extends Component {
     private static int count_id = 0;
-
     private int id;
+
     private String name;
     private int voltage;
-
-    private Controller controller;
 
     public Battery(String name, int voltage) {
         this.name = name;
@@ -41,10 +39,6 @@ public class Battery extends Component {
 
     public int getVoltage() {
         return voltage;
-    }
-
-    public void setController(Controller controller) {
-        this.controller = controller;
     }
     /********************/
 
