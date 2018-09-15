@@ -8,11 +8,11 @@ public class Battery extends Component {
     private int voltage;
 
     public Battery(String name, int voltage) {
-        this.name = name;
-        this.voltage = voltage;
-
         id = count_id;
         count_id++;
+
+        setName(name);
+        setVoltage(voltage);
     }
 
     /**
@@ -25,20 +25,24 @@ public class Battery extends Component {
     }
 
     /** GETTERS SETTERS */
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setVoltage(int voltage) {
         this.voltage = voltage;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public int getVoltage() {
         return voltage;
+    }
+
+    public int getId() {
+        return id;
     }
     /********************/
 

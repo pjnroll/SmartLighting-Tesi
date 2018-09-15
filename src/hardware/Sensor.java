@@ -13,18 +13,33 @@ public class Sensor extends Component {
 
     // TODO Gestire altri costruttori e le eccezioni
     public Sensor(SENSOR_TYPE sensor_type, String name, int minThreshold, int maxThreshold) {
-        this.sensor_type = sensor_type;
-        this.name = name;
-        this.minThreshold = minThreshold;
-        this.maxThreshold = maxThreshold;
-
         id = count_id;
         count_id++;
+
+        setSensor_type(sensor_type);
+        setName(name);
+        setMinThreshold(minThreshold);
+        setMaxThreshold(maxThreshold);
 
         setAttached(false);
     }
 
     /** GETTERS SETTERS */
+    public void setSensor_type(SENSOR_TYPE sensor_type) {
+        this.sensor_type = sensor_type;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setMinThreshold(int minThreshold) {
+        this.minThreshold = minThreshold;
+    }
+
+    public void setMaxThreshold(int maxThreshold) {
+        this.maxThreshold = maxThreshold;
+    }
+
     public int getId() {
         return id;
     }
@@ -43,14 +58,6 @@ public class Sensor extends Component {
 
     public int getMaxThreshold() {
         return maxThreshold;
-    }
-
-    public void setMinThreshold(int minThreshold) {
-        this.minThreshold = minThreshold;
-    }
-
-    public void setMaxThreshold(int maxThreshold) {
-        this.maxThreshold = maxThreshold;
     }
     /********************/
 
