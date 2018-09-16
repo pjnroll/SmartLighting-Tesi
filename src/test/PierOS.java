@@ -102,20 +102,8 @@ public class PierOS {
             e.printStackTrace();
         }
 
-        System.out.println(strada);
-
         strada.turnOn();
 
         System.out.println(strada);
-
-        strada.turnOff();
-
-        System.out.println(strada);
-
-        /*try {
-            strada.setCar(car);
-        } catch (CarAlreadyRunningException e) {
-            e.printStackTrace();
-        }*/
     }
 }

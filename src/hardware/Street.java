@@ -46,7 +46,6 @@ public class Street {
             this.car = car;
             car.setRunning(true);
             car.setStreet(this);
-            System.out.println("Diversa da null aggiunta");
         } else if (car == null) {
             throw new NullPointerException();
         } else {
@@ -89,22 +88,36 @@ public class Street {
 
     @Override
     public String toString() {
+        StringBuilder asse = new StringBuilder();
         StringBuilder toRetStreetLights = new StringBuilder();
+
+        Streetlight[] lampioni = new Streetlight[streetlights.size()];
+        int j = 0;
         for (Streetlight s : streetlights) {
+            lampioni[j] = s;
+            j++;
+        }
+
+        int k = 0;
+        for (int i = 0; i < 140; i++) {
+            asse.append(i + 1).append("\t");
+            if (i == lampioni[k].getPosition()) {
+                toRetStreetLights.append(lampioni[k].getController().getLamp().getIntensity());
+                k++;
+            }
+            toRetStreetLights.append("\t");
+        }
+
+        /*for (Streetlight s : streetlights) {
             toRetStreetLights.append(s.getController().getLamp().getIntensity()).append("\t");
-        }
+        }*/
 
-        /*StringBuilder toRetCar = new StringBuilder();
+        StringBuilder toRetCar = new StringBuilder();
         for (int i = 0; i < getCar().getPosition(); i++) {
-            toRetCar.append("\t");
+            toRetCar.append(" ");
         }
-        toRetCar.append("X");*/
-        String toRetCar = "";
-        for (int i = 0; i < getCar().getPosition(); i++) {
-            toRetCar += " ";
-        }
-        toRetCar += "X";
+        toRetCar.append("X");
 
-        return toRetStreetLights.toString() + "\n" + toRetCar;
+        return asse + "\n" + toRetStreetLights.toString() + "\n" + toRetCar + "\n\n";
     }
 }
