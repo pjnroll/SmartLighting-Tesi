@@ -1,5 +1,8 @@
 package hardware;
 
+import exceptions.CarAlreadyRunningException;
+import exceptions.ComponentAlreadyAttachedException;
+
 import java.util.LinkedList;
 
 public class Street {
@@ -38,10 +41,17 @@ public class Street {
         }
     }
 
-    public void setCar(Car car) {
-        this.car = car;
-        car.setRunning(true);
-        car.setStreet(this);
+    public void setCar(Car car) throws CarAlreadyRunningException {
+        if (car != null && !car.getRunning()) {
+            this.car = car;
+            car.setRunning(true);
+            car.setStreet(this);
+            System.out.println("Diversa da null aggiunta");
+        } else if (car == null) {
+            throw new NullPointerException();
+        } else {
+            throw new CarAlreadyRunningException(car);
+        }
     }
 
     public void remCar(Car car) {
@@ -79,11 +89,22 @@ public class Street {
 
     @Override
     public String toString() {
-        StringBuilder toRet = new StringBuilder();
+        StringBuilder toRetStreetLights = new StringBuilder();
         for (Streetlight s : streetlights) {
-            toRet.append(s.getController().getLamp().getIntensity()).append("\t");
+            toRetStreetLights.append(s.getController().getLamp().getIntensity()).append("\t");
         }
 
-        return toRet.toString();
+        /*StringBuilder toRetCar = new StringBuilder();
+        for (int i = 0; i < getCar().getPosition(); i++) {
+            toRetCar.append("\t");
+        }
+        toRetCar.append("X");*/
+        String toRetCar = "";
+        for (int i = 0; i < getCar().getPosition(); i++) {
+            toRetCar += " ";
+        }
+        toRetCar += "X";
+
+        return toRetStreetLights.toString() + "\n" + toRetCar;
     }
 }

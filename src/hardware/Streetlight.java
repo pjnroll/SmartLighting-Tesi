@@ -12,10 +12,17 @@ public class Streetlight {
     private boolean attached;
     private Street street;
 
+    private int position;
+
     public Streetlight(Controller controller) throws ControllerAlreadyAttachedException {
+        this(controller, 0);
+    }
+
+    public Streetlight(Controller controller, int position) throws ControllerAlreadyAttachedException {
         id = count_id;
         count_id++;
 
+        setPosition(position);
         setController(controller);
         setAttached(false);
         setStreet(null);
@@ -37,6 +44,14 @@ public class Streetlight {
 
     public int getId() {
         return id;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public int getPosition() {
+        return position;
     }
 
     public Controller getController() {

@@ -1,5 +1,7 @@
 package test;
 
+import exceptions.CarAlreadyRunningException;
+import exceptions.ComponentAlreadyAttachedException;
 import exceptions.ControllerAlreadyAttachedException;
 import hardware.*;
 import helper.LAMP_TYPE;
@@ -76,9 +78,11 @@ public class PierOS {
         }
 
         Streetlight[] streetlights = new Streetlight[20];
+        int position = 0;
         for (int i = 0; i < 20; i++) {
             try {
-                streetlights[i] = new Streetlight(controllers[i]);
+                streetlights[i] = new Streetlight(controllers[i], position);
+                position += 35;     // metri di distanza dal lampione successivo
             } catch (ControllerAlreadyAttachedException e) {
                 e.printStackTrace();
             }
@@ -89,16 +93,29 @@ public class PierOS {
             street.addLast(streetlights[i]);
         }
 
-        Street S1 = new Street("Street", street);
+        Street strada = new Street("Street", street);
 
-        System.out.println(S1);
+        Car car = new Car(90, 0);  // 90km/h
+        try {
+            strada.setCar(car);
+        } catch (CarAlreadyRunningException e) {
+            e.printStackTrace();
+        }
 
-        S1.turnOn();
+        System.out.println(strada);
 
-        System.out.println(S1);
+        strada.turnOn();
 
-        S1.turnOff();
+        System.out.println(strada);
 
-        System.out.println(S1);
+        strada.turnOff();
+
+        System.out.println(strada);
+
+        /*try {
+            strada.setCar(car);
+        } catch (CarAlreadyRunningException e) {
+            e.printStackTrace();
+        }*/
     }
 }
