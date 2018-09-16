@@ -14,6 +14,7 @@ public class Street {
         count_id++;
 
         setName(name);
+        this.streetlights = new LinkedList<>();
         setStreetlights(streetlights);
     }
 
@@ -30,7 +31,10 @@ public class Street {
     }
 
     public void setStreetlights(LinkedList<Streetlight> streetlights) {
-        this.streetlights = streetlights;
+        //this.streetlights = streetlights;
+        for (Streetlight s : streetlights) {
+            addStreetlight(s);
+        }
     }
 
     public void addStreetlight(Streetlight streetlight) {
