@@ -8,12 +8,14 @@ public class Street {
 
     private String name;
     private LinkedList<Streetlight> streetlights;
+    private Car car;
 
     public Street(String name, LinkedList<Streetlight> streetlights) {
         id = count_id;
         count_id++;
 
         setName(name);
+        car = null;
         this.streetlights = new LinkedList<>();
         setStreetlights(streetlights);
     }
@@ -31,10 +33,27 @@ public class Street {
     }
 
     public void setStreetlights(LinkedList<Streetlight> streetlights) {
-        //this.streetlights = streetlights;
         for (Streetlight s : streetlights) {
             addStreetlight(s);
         }
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+        car.setRunning(true);
+        car.setStreet(this);
+    }
+
+    public void remCar(Car car) {
+        if (car.getRunning() && getCar().equals(car)) {
+            this.car = null;
+            car.setRunning(false);
+            car.setStreet(null);
+        }
+    }
+
+    public Car getCar() {
+        return car;
     }
 
     public void addStreetlight(Streetlight streetlight) {
