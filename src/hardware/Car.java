@@ -1,7 +1,5 @@
 package hardware;
 
-import java.util.Random;
-
 public class Car implements Runnable {
     private static int count_id = 0;
     private int id;
@@ -60,13 +58,23 @@ public class Car implements Runnable {
 
     @Override
     public void run() {
-        while (running) {
-            //move();
+        while (running && position < 141) {
+            move();
         }
     }
 
     public void move() {
-        setPosition(position++);
+        System.out.println(getStreet());
+        try {
+            position++;
+            Thread.sleep((long) (1/(speed/3.6)*1000));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int fromKmhToMs(int speed) {
+        return (int)((speed/3.6)*1000);
     }
 
     public String toString() {

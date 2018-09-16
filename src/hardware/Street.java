@@ -86,6 +86,13 @@ public class Street {
         }
     }
 
+    public void start() {
+        if (car != null && car.getRunning()) {
+            Thread myCar = new Thread(car);
+            myCar.start();
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder asse = new StringBuilder();
@@ -108,16 +115,12 @@ public class Street {
             toRetStreetLights.append("\t");
         }
 
-        /*for (Streetlight s : streetlights) {
-            toRetStreetLights.append(s.getController().getLamp().getIntensity()).append("\t");
-        }*/
-
         StringBuilder toRetCar = new StringBuilder();
         for (int i = 0; i < getCar().getPosition(); i++) {
-            toRetCar.append(" ");
+            toRetCar.append("\t");
         }
         toRetCar.append("X");
 
-        return asse + "\n" + toRetStreetLights.toString() + "\n" + toRetCar + "\n\n";
+        return asse + "\n" + toRetStreetLights.toString() + "\n" + toRetCar + "\n\n\n\n";
     }
 }

@@ -103,7 +103,7 @@ public class PierOS {
         }
 
         strada.turnOn();
-
-        System.out.println(strada);
+        strada.start();
+        //System.out.println(strada);
     }
 }
