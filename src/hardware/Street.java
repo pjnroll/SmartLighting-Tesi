@@ -6,7 +6,7 @@ import exceptions.ComponentAlreadyAttachedException;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-public class Street {
+public class Street implements Runnable {
     private static int count_id = 0;
     private int id;
 
@@ -125,6 +125,11 @@ public class Street {
                 }
             }
         }
+    }
+
+    @Override
+    public void run() {
+
     }
 
     @Override

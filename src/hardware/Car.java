@@ -59,15 +59,25 @@ public class Car implements Runnable {
     @Override
     public void run() {
         while (running && position < 140) {
-            move();
             System.out.println(getStreet());
+            move();
         }
     }
 
     public void move() {
+
         try {
-            position++;
-            Thread.sleep((long) (1/(speed/3.6)*1000));
+            /**
+             * Tempo per percorrere un metro
+             */
+            /*position++;
+            Thread.sleep((long) (1/(speed/3.6)*1000));*/
+
+            /**
+             * Spazio percorso in un secondo
+             */
+            position += speed/3.6;
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
