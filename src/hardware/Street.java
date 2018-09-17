@@ -3,6 +3,7 @@ package hardware;
 import exceptions.CarAlreadyRunningException;
 import exceptions.ComponentAlreadyAttachedException;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 
 public class Street {
@@ -11,6 +12,7 @@ public class Street {
 
     private String name;
     private LinkedList<Streetlight> streetlights;
+    private HashSet<Car> cars;
     private Car car;
 
     public Street(String name, LinkedList<Streetlight> streetlights) {
@@ -19,6 +21,7 @@ public class Street {
 
         setName(name);
         car = null;
+        cars = new HashSet<>();
         this.streetlights = new LinkedList<>();
         setStreetlights(streetlights);
     }
@@ -41,7 +44,7 @@ public class Street {
         }
     }
 
-    public void setCar(Car car) throws CarAlreadyRunningException {
+    /*public void setCar(Car car) throws CarAlreadyRunningException {
         if (car != null && !car.getRunning()) {
             this.car = car;
             car.setRunning(true);
@@ -51,18 +54,38 @@ public class Street {
         } else {
             throw new CarAlreadyRunningException(car);
         }
+    }*/
+
+    public void setCar(Car car) throws CarAlreadyRunningException {
+        if (car != null && !car.getRunning()) {
+            cars.add(car);
+            car.setRunning(true);
+            car.setStreet(this);
+        } else if (car == null) {
+            throw new NullPointerException();
+        } else {
+            throw new CarAlreadyRunningException(car);
+        }
     }
 
-    public void remCar(Car car) {
+    public void setCars(HashSet<Car> cars) throws CarAlreadyRunningException {
+        if (cars != null) {
+            for (Car c : cars) {
+                setCar(c);
+            }
+        }
+    }
+
+    /*public void remCar(Car car) {
         if (car.getRunning() && getCar().equals(car)) {
             this.car = null;
             car.setRunning(false);
             car.setStreet(null);
         }
-    }
+    }*/
 
-    public Car getCar() {
-        return car;
+    public HashSet<Car> getCars() {
+        return cars;
     }
 
     public void addStreetlight(Streetlight streetlight) {
@@ -86,10 +109,21 @@ public class Street {
         }
     }
 
-    public void start() {
+    /*public void start() {
         if (car != null && car.getRunning()) {
             Thread myCar = new Thread(car);
             myCar.start();
+        }
+    }*/
+
+    public void start() {
+        if (cars != null) {
+            for (Car c : cars) {
+                if (c.getRunning()) {
+                    Thread myThread = new Thread(c);
+                    myThread.start();
+                }
+            }
         }
     }
 
@@ -115,12 +149,37 @@ public class Street {
             toRetStreetLights.append("\t");
         }
 
-        StringBuilder toRetCar = new StringBuilder();
+        /*StringBuilder toRetCar = new StringBuilder();
         for (int i = 0; i < getCar().getPosition(); i++) {
             toRetCar.append("\t");
         }
-        toRetCar.append("X");
+        toRetCar.append("X");*/
+        Car[] macchine = new Car[cars.size()];
+        k = 0;
+        for (Car c : cars) {
+            macchine[k] = c;
+            k++;
+        }
+        /*StringBuilder[] toRetCars = new StringBuilder[getCars().size()];
+        for (int n = 0; n < getCars().size(); n++) {
+            for (int i = 0; i < macchine[n].getPosition(); i++) {
+                toRetCars[n].append("\t");
+            }
+            toRetCars[n].append("X");
+        }*/
+        String[] toRetCars = new String[cars.size()];
+        for (int i = 0; i < cars.size(); i++) {
+            toRetCars[i] = "";
+            for (int z = 0; z < macchine[i].getPosition(); z++) {
+                toRetCars[i] += "\t";
+            }
+            toRetCars[i] += i+1;
+        }
 
-        return asse + "\n" + toRetStreetLights.toString() + "\n" + toRetCar + "\n\n\n\n";
+        StringBuilder corsie = new StringBuilder();
+        for (int i = 0; i < getCars().size(); i++) {
+            corsie.append(toRetCars[i]).append("\n");
+        }
+        return asse + "\n" + toRetStreetLights.toString() + "\n" + corsie + "\n\n\n\n";
     }
 }

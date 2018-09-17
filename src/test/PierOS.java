@@ -9,6 +9,7 @@ import helper.SENSOR_TYPE;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class PierOS {
     public static void main(String args[]) {
@@ -95,14 +96,24 @@ public class PierOS {
 
         Street strada = new Street("Street", street);
 
-        Car car = new Car(90, 0);  // 90km/h
+        Car car = new Car(100, 0);  // 90km/h
+        Car car2 = new Car(50, 0);  // 80km/h
+        Car car3 = new Car(70, 0);  // 80km/h
+        Car car4 = new Car(85, 0);  // 80km/h
+        HashSet<Car> cars = new HashSet<>();
+        cars.add(car);
+        cars.add(car2);
+        cars.add(car3);
+        cars.add(car4);
         try {
-            strada.setCar(car);
+            strada.setCars(cars);
         } catch (CarAlreadyRunningException e) {
             e.printStackTrace();
         }
 
         strada.turnOn();
+
+        //Random random = new Random();
         strada.start();
         //System.out.println(strada);
     }

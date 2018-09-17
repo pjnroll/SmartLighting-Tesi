@@ -58,13 +58,13 @@ public class Car implements Runnable {
 
     @Override
     public void run() {
-        while (running && position < 141) {
+        while (running && position < 140) {
             move();
+            System.out.println(getStreet());
         }
     }
 
     public void move() {
-        System.out.println(getStreet());
         try {
             position++;
             Thread.sleep((long) (1/(speed/3.6)*1000));
