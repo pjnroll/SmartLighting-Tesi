@@ -12,11 +12,10 @@ public class Street implements Runnable {
     private String name;
     private LinkedList<Streetlight> streetlights;
     private HashSet<Car> cars;
-    private Lane[] lanes;
 
     private Car car;
 
-    public Street(String name, LinkedList<Streetlight> streetlights, Lane[] lanes) {
+    public Street(String name, LinkedList<Streetlight> streetlights) {
         id = count_id;
         count_id++;
 
@@ -25,9 +24,6 @@ public class Street implements Runnable {
         cars = new HashSet<>();
         this.streetlights = new LinkedList<>();
         setStreetlights(streetlights);
-
-        this.lanes = new Lane[3];
-        setLanes(lanes);
     }
 
     public int getId() {
@@ -49,9 +45,9 @@ public class Street implements Runnable {
     }
 
     public void setLanes(Lane[] lanes) {
-        if (lanes != null) {
+        /*if (lanes != null) {
             System.arraycopy(lanes, 0, this.lanes, 0, lanes.length);
-        }
+        }*/
     }
 
     /*public void setCar(Car car) throws CarAlreadyRunningException {

@@ -78,19 +78,19 @@ public class Car implements Runnable {
             /**
              * Tempo per percorrere un metro
              */
-            position++;
+            /*position++;
             double quantum = 1/(speed/3.6)*1000;
             time += quantum;
             System.out.println("Tempo trascorso per " + getId() + ": " + time /1000 + "s");   // Log
-            Thread.sleep((long) (quantum));
+            Thread.sleep((long) (quantum));*/
 
             /**
              * Spazio percorso in un secondo
              */
-            /*double metri = speed/3.6;
+            double metri = speed/3.6;
             position += metri;
             System.out.println("Spazio percorso da " + getId() + ": " + position + "m");    // Log
-            Thread.sleep(1000);*/
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
