@@ -94,7 +94,8 @@ public class PierOS {
             street.addLast(streetlights[i]);
         }
 
-        Street strada = new Street("Street", street);
+        Lane[] lanes = new Lane[3];
+        Street strada = new Street("Street", street, lanes);
 
         Car car = new Car(90, 0);  // 90km/h
         /*Car car2 = new Car(70, 0);  // 80km/h
