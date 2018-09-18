@@ -10,9 +10,15 @@ public class Car implements Runnable {
     private Street street;
     private boolean running;
 
+    private double tempo;
+    private double spazio;
+
     public Car(int speed, int position) {
         id = count_id;
         count_id++;
+
+        tempo = 0;
+        spazio = 0;
 
         running = false;
         street = null;
@@ -59,25 +65,32 @@ public class Car implements Runnable {
     @Override
     public void run() {
         while (running && position < 140) {
+            for (Car c : getStreet().getCars()) {
+                System.out.println("Macchina " + c.getId() + ": " + c.getSpeed() + "km/h");
+            }
             System.out.println(getStreet());
             move();
         }
     }
 
     public void move() {
-
         try {
             /**
              * Tempo per percorrere un metro
              */
-            /*position++;
-            Thread.sleep((long) (1/(speed/3.6)*1000));*/
+            position++;
+            double quantum = 1/(speed/3.6)*1000;
+            tempo += quantum;
+            System.out.println("Tempo trascorso per " + getId() + ": " + tempo/1000 + "s");   // Log
+            Thread.sleep((long) (quantum));
 
             /**
              * Spazio percorso in un secondo
              */
-            position += speed/3.6;
-            Thread.sleep(1000);
+            /*double metri = speed/3.6;
+            position += metri;
+            System.out.println("Spazio percorso da " + getId() + ": " + position + "m");
+            Thread.sleep(1000);*/
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

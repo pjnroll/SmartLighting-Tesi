@@ -178,7 +178,7 @@ public class Street implements Runnable {
             for (int z = 0; z < macchine[i].getPosition(); z++) {
                 toRetCars[i] += "\t";
             }
-            toRetCars[i] += i+1;
+            toRetCars[i] += macchine[i].getId();
         }
 
         StringBuilder corsie = new StringBuilder();

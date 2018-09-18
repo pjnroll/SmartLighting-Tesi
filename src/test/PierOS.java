@@ -97,14 +97,12 @@ public class PierOS {
         Street strada = new Street("Street", street);
 
         Car car = new Car(90, 0);  // 90km/h
-        /*Car car2 = new Car(80, 0);  // 80km/h
-        Car car3 = new Car(70, 0);  // 80km/h
-        Car car4 = new Car(105, 0);  // 80km/h*/
+        /*Car car2 = new Car(70, 0);  // 80km/h
+        Car car3 = new Car(80, 0);  // 80km/h*/
         HashSet<Car> cars = new HashSet<>();
         cars.add(car);
         /*cars.add(car2);
-        cars.add(car3);
-        cars.add(car4);*/
+        cars.add(car3);*/
         try {
             strada.setCars(cars);
         } catch (CarAlreadyRunningException e) {
