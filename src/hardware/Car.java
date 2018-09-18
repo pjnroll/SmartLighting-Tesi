@@ -83,7 +83,7 @@ public class Car implements Runnable {
             time += quantum;
             System.out.println("Tempo trascorso per " + getId() + ": " + time /1000 + "s");   // Log
             Thread.sleep((long) (quantum));
-            getStreet()
+            sendDetect();
 
             /**
              * Spazio percorso in un secondo
@@ -94,6 +94,16 @@ public class Car implements Runnable {
             Thread.sleep(1000);*/
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void sendDetect() {
+        for (Streetlight s : getStreet().getStreetlights()) {
+            for (Component c : s.getController().getComponents()) {
+                if (c instanceof Sensor) {
+                    ((Sensor) c).read(position);
+                }
+            }
         }
     }
 

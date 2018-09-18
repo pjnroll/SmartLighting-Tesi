@@ -44,6 +44,10 @@ public class Street implements Runnable {
         }
     }
 
+    public LinkedList<Streetlight> getStreetlights() {
+        return streetlights;
+    }
+
     public void setCar(Car car) throws CarAlreadyRunningException {
         if (car != null && !car.getRunning()) {
             cars.add(car);

@@ -62,6 +62,13 @@ public class Sensor extends Component {
     }
     /********************/
 
+    public void read(int pos) {
+        Controller thisController = getController();
+        if (thisController.getStreetlight().getPosition() == pos) {
+            thisController.dimLamp(100);
+        }
+    }
+
 
     public String toString() {
         return "(Sensore: " + sensor_type.name() + " range " + minThreshold + "-" + maxThreshold + ")";

@@ -195,6 +195,10 @@ public class Controller {
         }
     }
 
+    public void dimLamp(int value) {
+        getLamp().setIntensity(value);
+    }
+
     public String toString() {
         return "[Controller: " + name + ", " + components + ", " + lamp + ", " + battery + "]";
     }
