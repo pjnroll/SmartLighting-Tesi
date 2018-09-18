@@ -19,11 +19,4 @@ public class Component {
     public void setController(Controller controller) {
         this.controller = controller;
     }
-
-    /*public void attach(Component component) {
-        attached = true;
-
-    }*/
-
-
 }

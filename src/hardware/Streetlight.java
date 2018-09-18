@@ -88,7 +88,7 @@ public class Streetlight {
         Lamp toTurnOn = getController().getLamp();
         if (toTurnOn != null && toTurnOn.getStatus().equals(LAMP_STATUS.OFF)) {
             toTurnOn.setStatus(LAMP_STATUS.ON);
-            toTurnOn.setIntensity(20);
+            toTurnOn.setIntensity(100);
         }
     }
 
