@@ -35,6 +35,7 @@ public class Streetlight {
             this.controller = controller;
             controller.setAttached(true);
             controller.setStreetlight(this);
+            controller.setPosition(position);
         } else if (controller == null) {
             throw new NullPointerException("Il controller è nullo");
         } else {
@@ -95,7 +96,7 @@ public class Streetlight {
     public void turnOffLamp() {
         Lamp toTurnOff = getController().getLamp();
         if (toTurnOff != null && toTurnOff.getStatus().equals(LAMP_STATUS.ON)) {
-            toTurnOff.setIntensity(0);
+            toTurnOff.setIntensity(20);
             toTurnOff.setStatus(LAMP_STATUS.OFF);
         }
     }

@@ -13,6 +13,8 @@ public class Street implements Runnable {
     private LinkedList<Streetlight> streetlights;
     private HashSet<Car> cars;
 
+    private HashSet<Sensor> sensors;
+
     private Car car;
 
     public Street(String name, LinkedList<Streetlight> streetlights) {
@@ -24,6 +26,7 @@ public class Street implements Runnable {
         cars = new HashSet<>();
         this.streetlights = new LinkedList<>();
         setStreetlights(streetlights);
+        sensors = new HashSet<>();
     }
 
     public int getId() {
@@ -72,6 +75,19 @@ public class Street implements Runnable {
         return cars;
     }
 
+    private HashSet<Sensor> collectSensors() {
+        HashSet<Sensor> sensors = new HashSet<>();
+        for (Streetlight s : getStreetlights()) {
+            HashSet<Component> components = s.getController().getComponents();
+            for (Component c : components) {
+                if (c instanceof Sensor) {
+                    sensors.add((Sensor) c);
+                }
+            }
+        }
+        return sensors;
+    }
+
     public void addStreetlight(Streetlight streetlight) {
         if (streetlight != null && !streetlight.getAttached()) {
             streetlights.addLast(streetlight);
@@ -82,15 +98,40 @@ public class Street implements Runnable {
     }
 
     public void turnOn() {
+        sensors = collectSensors();
         for (Streetlight s : streetlights) {
             s.turnOnLamp();
         }
+    }
+
+    public HashSet<Sensor> getSensors() {
+        return sensors;
     }
 
     public void turnOff() {
         for (Streetlight s : streetlights) {
             s.turnOffLamp();
         }
+    }
+
+    public Streetlight findStreetlightByPosition(int position) {
+        Streetlight toRet = null;
+        for (Streetlight s : getStreetlights()) {
+            if (s.getPosition() == position) {
+                toRet = s;
+            }
+        }
+        return toRet;
+    }
+
+    public Car findCarByPosition(int position) {
+        Car toRet = null;
+        for (Car c : getCars()) {
+            if (c.getPosition() == position) {
+                toRet = c;
+            }
+        }
+        return toRet;
     }
 
     public void start() {

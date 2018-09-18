@@ -18,6 +18,8 @@ public class Controller {
     private boolean attached;
     private Streetlight streetlight;
 
+    private int position;
+
     /**
      * Full constructor
      * @param name
@@ -38,6 +40,7 @@ public class Controller {
     public Controller(String name, Component component) throws Exception {
         this(name);
 
+        setPosition(-1);
         setComponent(component);
     }
 
@@ -65,12 +68,26 @@ public class Controller {
         return components;
     }
 
+    public HashSet<Sensor> getSensors() {
+        HashSet<Sensor> toRet = new HashSet<>();
+        for (Component c : getComponents()) {
+            if (c instanceof Sensor) {
+                toRet.add((Sensor) c);
+            }
+        }
+        return toRet;
+    }
+
     public Lamp getLamp() {
         return lamp;
     }
 
     public Battery getBattery() {
         return battery;
+    }
+
+    public int getPosition() {
+        return position;
     }
 
     public void setName(String name) {
@@ -95,6 +112,13 @@ public class Controller {
         battery.setController(this);
     }
 
+    public void setPosition(int position) {
+        this.position = position;
+        for (Component c : getComponents()) {
+            c.setPosition(position);
+        }
+    }
+
     /**
      * This method lets adding a Component to the Controller
      * @param c
@@ -108,6 +132,7 @@ public class Controller {
             } else if (c instanceof Battery) {
                 setBattery((Battery) c);
             }
+            c.setPosition(position);
         } else if (c == null) {
             throw new NullPointerException("Il componente è nullo");
         } else {
@@ -194,6 +219,12 @@ public class Controller {
             }
         }
     }
+
+    /*public void startDetect() {
+        if (getStreetlight().getStreet().findCarByPosition(position) != null) {
+            // C'è l'auto, faccio qualcosa
+        }
+    }*/
 
     public void dimLamp(int value) {
         getLamp().setIntensity(value);

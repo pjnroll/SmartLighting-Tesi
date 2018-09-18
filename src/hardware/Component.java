@@ -4,6 +4,8 @@ public class Component {
     private boolean attached;
     private Controller controller;
 
+    private int position;
+
     public boolean getAttached() {
         return attached;
     }
@@ -18,5 +20,13 @@ public class Component {
 
     public void setController(Controller controller) {
         this.controller = controller;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

@@ -69,6 +69,9 @@ public class Car implements Runnable {
                 System.out.println("Macchina " + c.getId() + ": " + c.getSpeed() + "km/h");
             }
             System.out.println(getStreet());
+            for (Sensor s : getStreet().getSensors()) {
+                s.detect(position);
+            }
             move();
         }
     }
@@ -83,7 +86,6 @@ public class Car implements Runnable {
             time += quantum;
             System.out.println("Tempo trascorso per " + getId() + ": " + time /1000 + "s");   // Log
             Thread.sleep((long) (quantum));
-            sendDetect();
 
             /**
              * Spazio percorso in un secondo
@@ -97,15 +99,25 @@ public class Car implements Runnable {
         }
     }
 
-    public void sendDetect() {
-        for (Streetlight s : getStreet().getStreetlights()) {
+    /*public void sendDetect() {
+        Street street = getStreet();
+        Streetlight streetlight = street.findStreetlightByPosition(position);
+        if (streetlight != null) {
+            for (Sensor s : streetlight.getController().collectSensors()) {
+                if (s.getSensor_type().equals(SENSOR_TYPE.PIR)) {
+                    ///s.read(position);
+                }
+            }
+        }
+
+        /*for (Streetlight s : getStreet().getStreetlights()) {
             for (Component c : s.getController().getComponents()) {
-                if (c instanceof Sensor) {
+                if (c instanceof Sensor && ((Sensor) c).getSensor_type().equals(SENSOR_TYPE.PIR)) {
                     ((Sensor) c).read(position);
                 }
             }
         }
-    }
+    }*/
 
     public int fromKmhToMs(int speed) {
         return (int)((speed/3.6)*1000);
