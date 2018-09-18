@@ -1,7 +1,6 @@
 package hardware;
 
 import exceptions.CarAlreadyRunningException;
-import exceptions.ComponentAlreadyAttachedException;
 
 import java.util.HashSet;
 import java.util.LinkedList;
