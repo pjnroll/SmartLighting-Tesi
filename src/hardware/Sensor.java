@@ -81,10 +81,9 @@ public class Sensor extends Component {
             // il fascio di luce emesso dai fanali è di circa 10 metri, quindi
             // value corrisponde all'intensità
             int myPos = getPosition();      // 35
-            if (myPos >= value && myPos <= value+getMaxThreshold()-getMinThreshold()) { // 35 >= 16 && 35 <= 16+10
+
+            if (myPos > value && myPos <= value+getMaxThreshold()-getMinThreshold()) { // 35 >= 16 && 35 <= 16+10
                 getController().dimLamp(100);
-            } else if (myPos >= value){
-                getController().dimLamp(20);
             } else {
                 getController().dimLamp(20);
             }

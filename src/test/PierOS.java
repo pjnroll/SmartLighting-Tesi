@@ -87,12 +87,12 @@ public class PierOS {
          */
         Random random = new Random();
         Car car = new Car(90, 0);  // 90km/h
-        /*Car car2 = new Car((random.nextInt(40) + 50), random.nextInt(140));  // 80km/h
-        Car car3 = new Car((random.nextInt(40) + 50), random.nextInt(140));  // 80km/h*/
+        Car car2 = new Car((random.nextInt(40) + 50), random.nextInt(140));  // 80km/h
+        Car car3 = new Car((random.nextInt(40) + 50), random.nextInt(140));  // 80km/h
         HashSet<Car> cars = new HashSet<>();
         cars.add(car);
-        /*cars.add(car2);
-        cars.add(car3);*/
+        cars.add(car2);
+        cars.add(car3);
         try {
             strada.setCars(cars);
         } catch (CarAlreadyRunningException e) {
