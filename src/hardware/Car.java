@@ -46,7 +46,7 @@ public class Car implements Runnable {
         this.street = street;
     }
 
-    public Street getStreet() {
+    private Street getStreet() {
         return street;
     }
 
