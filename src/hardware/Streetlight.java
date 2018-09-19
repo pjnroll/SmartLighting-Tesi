@@ -14,10 +14,6 @@ public class Streetlight {
 
     private int position;
 
-    public Streetlight(Controller controller) throws ControllerAlreadyAttachedException {
-        this(controller, 0);
-    }
-
     public Streetlight(Controller controller, int position) throws ControllerAlreadyAttachedException {
         id = count_id;
         count_id++;
@@ -28,9 +24,8 @@ public class Streetlight {
         setStreet(null);
     }
 
-
     /** GETTERS SETTERS */
-    public void setController(Controller controller) throws ControllerAlreadyAttachedException {
+    private void setController(Controller controller) throws ControllerAlreadyAttachedException {
         if (controller != null && !controller.getAttached()) {
             this.controller = controller;
             controller.setAttached(true);
@@ -47,7 +42,7 @@ public class Streetlight {
         return id;
     }
 
-    public void setPosition(int position) {
+    private void setPosition(int position) {
         this.position = position;
     }
 

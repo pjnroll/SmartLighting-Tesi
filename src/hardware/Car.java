@@ -30,16 +30,12 @@ public class Car implements Runnable {
         return id;
     }
 
-    public void setSpeed(int speed) {
+    private void setSpeed(int speed) {
         this.speed = speed;
     }
 
-    public void setPosition(int position) {
+    private void setPosition(int position) {
         this.position = position;
-    }
-
-    public int getSpeed() {
-        return speed;
     }
 
     public int getPosition() {
@@ -64,12 +60,10 @@ public class Car implements Runnable {
 
     @Override
     public void run() {
-        while (running && position < Street.STREET_LENGTH) {
-            /*for (Car c : getStreet().getCars()) {
-                System.out.println("Macchina " + c.getId() + ": " + c.getSpeed() + "km/h");
-            }*/
+        while (running && position < getStreet().getStreetLength()) {
             System.out.println(getStreet());
             getStreet().setInStreet(position, getId());
+
             // imposto l'intensità luminosa dei fanali sulla strada
             for (int i = this.getPosition()+1; (position+11 < getStreet().getArrayStreet().length) && i < position+11; i++) {
                 if (getStreet().getFromStreet(i) == -1) {
@@ -83,7 +77,7 @@ public class Car implements Runnable {
         }
     }
 
-    public void move() {
+    private void move() {
         try {
             /**
              * Tempo per percorrere un metro
@@ -107,30 +101,6 @@ public class Car implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    /*public void sendDetect() {
-        Street street = getStreet();
-        Streetlight streetlight = street.findStreetlightByPosition(position);
-        if (streetlight != null) {
-            for (Sensor s : streetlight.getController().collectSensors()) {
-                if (s.getSensor_type().equals(SENSOR_TYPE.PIR)) {
-                    ///s.read(position);
-                }
-            }
-        }
-
-        /*for (Streetlight s : getStreet().getStreetlights()) {
-            for (Component c : s.getController().getComponents()) {
-                if (c instanceof Sensor && ((Sensor) c).getSensor_type().equals(SENSOR_TYPE.PIR)) {
-                    ((Sensor) c).read(position);
-                }
-            }
-        }
-    }*/
-
-    public int fromKmhToMs(int speed) {
-        return (int)((speed/3.6)*1000);
     }
 
     public String toString() {

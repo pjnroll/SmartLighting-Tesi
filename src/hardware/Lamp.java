@@ -1,6 +1,5 @@
 package hardware;
 
-import helper.Intensity;
 import helper.LAMP_STATUS;
 import helper.LAMP_TYPE;
 
@@ -30,11 +29,11 @@ public class Lamp extends Component {
         this.status = status;
     }
 
-    public void setLamp_type(LAMP_TYPE lamp_type) {
+    private void setLamp_type(LAMP_TYPE lamp_type) {
         this.lamp_type = lamp_type;
     }
 
-    public void setWatt(int watt) {
+    private void setWatt(int watt) {
         this.watt = watt;
     }
 

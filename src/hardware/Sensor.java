@@ -2,8 +2,6 @@ package hardware;
 
 import helper.SENSOR_TYPE;
 
-import java.util.Arrays;
-
 public class Sensor extends Component {
     private static int count_id = 0;
     private int id;
@@ -38,18 +36,19 @@ public class Sensor extends Component {
     }
 
     /** GETTERS SETTERS */
-    public void setSensor_type(SENSOR_TYPE sensor_type) {
+    private void setSensor_type(SENSOR_TYPE sensor_type) {
         this.sensor_type = sensor_type;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
-    public void setMinThreshold(int minThreshold) {
+
+    private void setMinThreshold(int minThreshold) {
         this.minThreshold = minThreshold;
     }
 
-    public void setMaxThreshold(int maxThreshold) {
+    private void setMaxThreshold(int maxThreshold) {
         this.maxThreshold = maxThreshold;
     }
 
@@ -57,7 +56,7 @@ public class Sensor extends Component {
         return id;
     }
 
-    public SENSOR_TYPE getSensor_type() {
+    private SENSOR_TYPE getSensor_type() {
         return sensor_type;
     }
 
@@ -102,12 +101,6 @@ public class Sensor extends Component {
             getController().dimLamp(20);
         }
     }
-
-    /*public void read(int pos) {
-        Street thisStreet = getController().getStreetlight().getStreet();
-        getController().di
-    }*/
-
 
     public String toString() {
         return "(Sensore: " + sensor_type.name() + " range " + minThreshold + "-" + maxThreshold + ")";

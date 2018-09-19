@@ -1,7 +1,6 @@
 package hardware;
 
 import exceptions.ComponentAlreadyAttachedException;
-import helper.LAMP_STATUS;
 
 import java.util.HashSet;
 
@@ -32,23 +31,10 @@ public class Controller {
     }
 
     /**
-     * Contructor with just one component (a sensor, lamp or battery)
-     * @param name
-     * @param component
-     * @throws Exception
-     */
-    public Controller(String name, Component component) throws Exception {
-        this(name);
-
-        setPosition(-1);
-        setComponent(component);
-    }
-
-    /**
      * Empty constructor
      * @param name
      */
-    public Controller(String name) {
+    private Controller(String name) {
         id = count_id;
         count_id++;
 
@@ -60,29 +46,15 @@ public class Controller {
     }
 
     /** GETTERS SETTERS */
-    public int getId() {
-        return id;
-    }
-
     public HashSet<Component> getComponents() {
         return components;
-    }
-
-    public HashSet<Sensor> getSensors() {
-        HashSet<Sensor> toRet = new HashSet<>();
-        for (Component c : getComponents()) {
-            if (c instanceof Sensor) {
-                toRet.add((Sensor) c);
-            }
-        }
-        return toRet;
     }
 
     public Lamp getLamp() {
         return lamp;
     }
 
-    public Battery getBattery() {
+    private Battery getBattery() {
         return battery;
     }
 
@@ -90,7 +62,7 @@ public class Controller {
         return position;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
@@ -123,7 +95,7 @@ public class Controller {
      * This method lets adding a Component to the Controller
      * @param c
      */
-    public void setComponent(Component c) throws Exception {
+    private void setComponent(Component c) throws Exception {
         if (c != null && !c.getAttached()) {
             if (c instanceof Sensor) {
                 setSensor((Sensor) c);
@@ -140,7 +112,7 @@ public class Controller {
         }
     }
 
-    public void setComponents(HashSet<Component> components) {
+    private void setComponents(HashSet<Component> components) {
         for (Component c : components) {
             try {
                 setComponent(c);
@@ -219,12 +191,6 @@ public class Controller {
             }
         }
     }
-
-    /*public void startDetect() {
-        if (getStreetlight().getStreet().findCarByPosition(position) != null) {
-            // C'è l'auto, faccio qualcosa
-        }
-    }*/
 
     public void dimLamp(int value) {
         getLamp().setIntensity(value);

@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 public class Street {
-    public final static int STREET_LENGTH = 1050;
+    private final int STREET_LENGTH = 1050;
     private static int count_id = 0;
     private int id;
 
@@ -16,8 +16,6 @@ public class Street {
     private HashSet<Car> cars;
 
     private HashSet<Sensor> sensors;
-
-    private Car car;
 
     private int[] street;
 
@@ -29,7 +27,6 @@ public class Street {
         Arrays.fill(street, -1);
 
         setName(name);
-        car = null;
         cars = new HashSet<>();
         this.streetlights = new LinkedList<>();
         setStreetlights(streetlights);
@@ -44,21 +41,21 @@ public class Street {
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
-    public void setStreetlights(LinkedList<Streetlight> streetlights) {
+    private void setStreetlights(LinkedList<Streetlight> streetlights) {
         for (Streetlight s : streetlights) {
             addStreetlight(s);
         }
     }
 
-    public LinkedList<Streetlight> getStreetlights() {
+    private LinkedList<Streetlight> getStreetlights() {
         return streetlights;
     }
 
-    public void setCar(Car car) throws CarAlreadyRunningException {
+    private void setCar(Car car) throws CarAlreadyRunningException {
         if (car != null && !car.getRunning()) {
             cars.add(car);
             car.setRunning(true);
@@ -78,8 +75,12 @@ public class Street {
         }
     }
 
-    public HashSet<Car> getCars() {
+    private HashSet<Car> getCars() {
         return cars;
+    }
+
+    public int getStreetLength() {
+        return STREET_LENGTH;
     }
 
     private HashSet<Sensor> collectSensors() {
@@ -95,7 +96,7 @@ public class Street {
         return sensors;
     }
 
-    public void addStreetlight(Streetlight streetlight) {
+    private void addStreetlight(Streetlight streetlight) {
         if (streetlight != null && !streetlight.getAttached()) {
             streetlights.addLast(streetlight);
             streetlight.setAttached(true);

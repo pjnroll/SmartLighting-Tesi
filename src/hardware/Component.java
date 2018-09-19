@@ -22,7 +22,7 @@ public class Component {
         this.controller = controller;
     }
 
-    public int getPosition() {
+    int getPosition() {
         return position;
     }
 

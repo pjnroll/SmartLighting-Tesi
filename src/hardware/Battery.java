@@ -28,24 +28,12 @@ public class Battery extends Component {
     }
 
     /** GETTERS SETTERS */
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
-    public void setVoltage(int voltage) {
+    private void setVoltage(int voltage) {
         this.voltage = voltage;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getVoltage() {
-        return voltage;
-    }
-
-    public int getId() {
-        return id;
     }
     /********************/
 
