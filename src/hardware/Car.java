@@ -64,14 +64,20 @@ public class Car implements Runnable {
 
     @Override
     public void run() {
-        while (running && position < 140) {
+        while (running && position < Street.STREET_LENGTH) {
             /*for (Car c : getStreet().getCars()) {
                 System.out.println("Macchina " + c.getId() + ": " + c.getSpeed() + "km/h");
             }*/
             System.out.println(getStreet());
             getStreet().setInStreet(position, getId());
+            // imposto l'intensità luminosa dei fanali sulla strada
+            for (int i = this.getPosition()+1; (position+11 < getStreet().getArrayStreet().length) && i < position+11; i++) {
+                if (getStreet().getFromStreet(i) == -1) {
+                    getStreet().setInStreet(i, -2); // -2 = luce dei fanali
+                }
+            }
             for (Sensor s : getStreet().getSensors()) {
-                s.detect(position);
+                s.detect();
             }
             move();
         }

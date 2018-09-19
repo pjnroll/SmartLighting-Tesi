@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 public class Street {
-    private final static int STREET_LENGTH = 140;
+    public final static int STREET_LENGTH = 1050;
     private static int count_id = 0;
     private int id;
 

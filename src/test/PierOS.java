@@ -15,44 +15,44 @@ public class PierOS {
         /**
          * Creo 20 lampade
          */
-        Lamp[] lamps = new Lamp[4];
-        for (int i = 0; i < 4; i++) {
+        Lamp[] lamps = new Lamp[30];
+        for (int i = 0; i < 30; i++) {
             lamps[i] = new Lamp(LAMP_TYPE.LED, 25);
         }
 
         /**
          * Creo 20 sensori LDR
          */
-        /*Sensor[] ldrSensors = new Sensor[4];
-        for (int i = 0; i < 4; i++) {
-            ldrSensors[i] = new Sensor(SENSOR_TYPE.LDR, ("LDR"+i), 0, 10);
-        }*/
+        Sensor[] ldrSensors = new Sensor[30];
+        for (int i = 0; i < 30; i++) {
+            ldrSensors[i] = new Sensor(SENSOR_TYPE.LDR, ("LDR" + i), 0, 10);
+        }
 
         /**
          * Creo 20 sensori PIR
          */
-        Sensor[] pirSensors = new Sensor[4];
+        /*Sensor[] pirSensors = new Sensor[4];
         for (int i = 0; i < 4; i++) {
             pirSensors[i] = new Sensor(SENSOR_TYPE.PIR, ("PIR"+i), 0, 20);
-        }
+        }*/
 
         /**
          * Creo 20 batterie
          */
-        Battery[] batteries = new Battery[4];
-        for (int i = 0; i < 4; i++) {
+        Battery[] batteries = new Battery[30];
+        for (int i = 0; i < 30; i++) {
             batteries[i] = new Battery("BATT"+i, 9);
         }
 
         /**
          * Creo 20 controller a cui aggiungo le lampade, i sensori e le batterie
          */
-        Controller[] controllers = new Controller[4];
-        for (int i = 0; i < 4; i++) {
+        Controller[] controllers = new Controller[30];
+        for (int i = 0; i < 30; i++) {
             HashSet<Component> components = new HashSet<>();
             components.add(lamps[i]);
-            //components.add(ldrSensors[i]);
-            components.add(pirSensors[i]);
+            components.add(ldrSensors[i]);
+            //components.add(pirSensors[i]);
             components.add(batteries[i]);
 
             controllers[i] = new Controller("CONTROLLER"+i, components);
@@ -61,9 +61,9 @@ public class PierOS {
         /**
          * Creo 20 lampioni a cui aggiungo i controller
          */
-        Streetlight[] streetlights = new Streetlight[20];
+        Streetlight[] streetlights = new Streetlight[30];
         int position = 0;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 30; i++) {
             try {
                 streetlights[i] = new Streetlight(controllers[i], position);
                 position += 35;     // metri di distanza dal lampione successivo
@@ -73,7 +73,7 @@ public class PierOS {
         }
 
         LinkedList<Streetlight> street = new LinkedList<>();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 30; i++) {
             street.addLast(streetlights[i]);
         }
 
@@ -86,9 +86,9 @@ public class PierOS {
          * Creo le auto e le aggiungo alla strada
          */
         Random random = new Random();
-        Car car = new Car(90, 0);  // 90km/h
-        Car car2 = new Car((random.nextInt(40) + 50), random.nextInt(140));  // 80km/h
-        Car car3 = new Car((random.nextInt(40) + 50), random.nextInt(140));  // 80km/h
+        Car car = new Car(90, (random.nextInt(55)+15));  // 90km/h
+        Car car2 = new Car((random.nextInt(40) + 50), (random.nextInt(55)+15));  // 80km/h
+        Car car3 = new Car((random.nextInt(40) + 50), (random.nextInt(55)+15));  // 80km/h
         HashSet<Car> cars = new HashSet<>();
         cars.add(car);
         cars.add(car2);

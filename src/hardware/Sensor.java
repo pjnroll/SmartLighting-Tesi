@@ -74,39 +74,32 @@ public class Sensor extends Component {
     }
     /********************/
 
-    public void detect(int value) {
-        int myPos = getPosition();
+    public void detect() {
+        int myPos = getPosition();                                  //35
+        int range = getMaxThreshold()-getMinThreshold();            //10
+        int[] streetNow = getController().getStreetlight().getStreet().getArrayStreet();
+        boolean detected = false;
+
         if (getSensor_type().equals(SENSOR_TYPE.PIR)) {
-            int range = getMaxThreshold()-getMinThreshold();
             //System.out.println(getController().getStreetlight().getId() + " CONTROLLA DA " + (myPos-(range/2)) + " a " + (myPos+(range/2)));
-            int[] streetNow = getController().getStreetlight().getStreet().getArrayStreet();
-            boolean detected = false;
             for (int i = myPos-(range/2); i < myPos+(range/2) && !detected; i++) {
                 if (i > -1 && i < streetNow.length && streetNow[i] != -1) {
                     detected = true;
                 }
             }
-            if (detected) {
-                getController().dimLamp(100);
-            } else {
-                getController().dimLamp(20);
+        } else if (getSensor_type().equals(SENSOR_TYPE.LDR)) {      //true
+            for (int i = myPos-range; i < myPos && !detected; i++) {    // i = 25; 25 < 35
+                if (i > 9 && i < streetNow.length && streetNow[i] == -2) {   // 25 > 9; 25 < 140; streetNow[15] == -1
+                    detected = true;
+                }
             }
-            /*if (!Arrays.equals(getController().getStreetlight().getStreet().getArrayStreet(), empty)) {
-                getController().dimLamp(100);
-            } else {
-                getController().dimLamp(20);
-            }*/
-
-
-        } else if (getSensor_type().equals(SENSOR_TYPE.LDR)) {
             // il fascio di luce emesso dai fanali è di circa 10 metri, quindi
             // value corrisponde all'intensità
-            if (myPos > value && myPos <= value+getMaxThreshold()-getMinThreshold()) { // 35 >= 16 && 35 <= 16+10
-                getController().dimLamp(100);
-            } else {
-                getController().dimLamp(20);
-            }
-
+        }
+        if (detected) {
+            getController().dimLamp(100);
+        } else {
+            getController().dimLamp(20);
         }
     }
 
