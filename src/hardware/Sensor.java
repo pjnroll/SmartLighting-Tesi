@@ -2,6 +2,8 @@ package hardware;
 
 import helper.SENSOR_TYPE;
 
+import java.util.Arrays;
+
 public class Sensor extends Component {
     private static int count_id = 0;
     private int id;
@@ -73,15 +75,32 @@ public class Sensor extends Component {
     /********************/
 
     public void detect(int value) {
+        int myPos = getPosition();
         if (getSensor_type().equals(SENSOR_TYPE.PIR)) {
-            //
-            int pos = value;
+            int range = getMaxThreshold()-getMinThreshold();
+            //System.out.println(getController().getStreetlight().getId() + " CONTROLLA DA " + (myPos-(range/2)) + " a " + (myPos+(range/2)));
+            int[] streetNow = getController().getStreetlight().getStreet().getArrayStreet();
+            boolean detected = false;
+            for (int i = myPos-(range/2); i < myPos+(range/2) && !detected; i++) {
+                if (i > -1 && i < streetNow.length && streetNow[i] != -1) {
+                    detected = true;
+                }
+            }
+            if (detected) {
+                getController().dimLamp(100);
+            } else {
+                getController().dimLamp(20);
+            }
+            /*if (!Arrays.equals(getController().getStreetlight().getStreet().getArrayStreet(), empty)) {
+                getController().dimLamp(100);
+            } else {
+                getController().dimLamp(20);
+            }*/
+
 
         } else if (getSensor_type().equals(SENSOR_TYPE.LDR)) {
             // il fascio di luce emesso dai fanali è di circa 10 metri, quindi
             // value corrisponde all'intensità
-            int myPos = getPosition();      // 35
-
             if (myPos > value && myPos <= value+getMaxThreshold()-getMinThreshold()) { // 35 >= 16 && 35 <= 16+10
                 getController().dimLamp(100);
             } else {

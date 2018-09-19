@@ -2,10 +2,11 @@ package hardware;
 
 import exceptions.CarAlreadyRunningException;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-public class Street implements Runnable {
+public class Street {
     private final static int STREET_LENGTH = 140;
     private static int count_id = 0;
     private int id;
@@ -18,9 +19,14 @@ public class Street implements Runnable {
 
     private Car car;
 
+    private int[] street;
+
     public Street(String name, LinkedList<Streetlight> streetlights) {
         id = count_id;
         count_id++;
+
+        street = new int[STREET_LENGTH];
+        Arrays.fill(street, -1);
 
         setName(name);
         car = null;
@@ -147,9 +153,16 @@ public class Street implements Runnable {
         }
     }
 
-    @Override
-    public void run() {
+    public void setInStreet(int position, int value) {
+        street[position] = value;
+    }
 
+    public int getFromStreet(int position) {
+        return street[position];
+    }
+
+    public int[] getArrayStreet() {
+        return street;
     }
 
     @Override
@@ -167,7 +180,7 @@ public class Street implements Runnable {
         int k = 0;
         for (int i = 0; i < STREET_LENGTH; i++) {
             asse.append(i).append("\t");
-            if (i == lampioni[k].getPosition()) {
+            if (k < lampioni.length && i == lampioni[k].getPosition()) {
                 toRetStreetLights.append(lampioni[k].getController().getLamp().getIntensity());
                 k++;
             }

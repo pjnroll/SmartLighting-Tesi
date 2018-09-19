@@ -15,44 +15,44 @@ public class PierOS {
         /**
          * Creo 20 lampade
          */
-        Lamp[] lamps = new Lamp[20];
-        for (int i = 0; i < 20; i++) {
+        Lamp[] lamps = new Lamp[4];
+        for (int i = 0; i < 4; i++) {
             lamps[i] = new Lamp(LAMP_TYPE.LED, 25);
         }
 
         /**
          * Creo 20 sensori LDR
          */
-        Sensor[] ldrSensors = new Sensor[20];
-        for (int i = 0; i < 20; i++) {
+        /*Sensor[] ldrSensors = new Sensor[4];
+        for (int i = 0; i < 4; i++) {
             ldrSensors[i] = new Sensor(SENSOR_TYPE.LDR, ("LDR"+i), 0, 10);
-        }
+        }*/
 
         /**
          * Creo 20 sensori PIR
          */
-        /*Sensor[] pirSensors = new Sensor[20];
-        for (int i = 0; i < 20; i++) {
+        Sensor[] pirSensors = new Sensor[4];
+        for (int i = 0; i < 4; i++) {
             pirSensors[i] = new Sensor(SENSOR_TYPE.PIR, ("PIR"+i), 0, 20);
-        }*/
+        }
 
         /**
          * Creo 20 batterie
          */
-        Battery[] batteries = new Battery[20];
-        for (int i = 0; i < 20; i++) {
+        Battery[] batteries = new Battery[4];
+        for (int i = 0; i < 4; i++) {
             batteries[i] = new Battery("BATT"+i, 9);
         }
 
         /**
          * Creo 20 controller a cui aggiungo le lampade, i sensori e le batterie
          */
-        Controller[] controllers = new Controller[20];
-        for (int i = 0; i < 20; i++) {
+        Controller[] controllers = new Controller[4];
+        for (int i = 0; i < 4; i++) {
             HashSet<Component> components = new HashSet<>();
             components.add(lamps[i]);
-            components.add(ldrSensors[i]);
-            //components.add(pirSensors[i]);
+            //components.add(ldrSensors[i]);
+            components.add(pirSensors[i]);
             components.add(batteries[i]);
 
             controllers[i] = new Controller("CONTROLLER"+i, components);
@@ -63,7 +63,7 @@ public class PierOS {
          */
         Streetlight[] streetlights = new Streetlight[20];
         int position = 0;
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 4; i++) {
             try {
                 streetlights[i] = new Streetlight(controllers[i], position);
                 position += 35;     // metri di distanza dal lampione successivo
@@ -73,7 +73,7 @@ public class PierOS {
         }
 
         LinkedList<Streetlight> street = new LinkedList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 4; i++) {
             street.addLast(streetlights[i]);
         }
 

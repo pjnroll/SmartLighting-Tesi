@@ -65,10 +65,11 @@ public class Car implements Runnable {
     @Override
     public void run() {
         while (running && position < 140) {
-            for (Car c : getStreet().getCars()) {
+            /*for (Car c : getStreet().getCars()) {
                 System.out.println("Macchina " + c.getId() + ": " + c.getSpeed() + "km/h");
-            }
+            }*/
             System.out.println(getStreet());
+            getStreet().setInStreet(position, getId());
             for (Sensor s : getStreet().getSensors()) {
                 s.detect(position);
             }
@@ -84,8 +85,11 @@ public class Car implements Runnable {
             position++;
             double quantum = 1/(speed/3.6)*1000;
             time += quantum;
-            System.out.println("Tempo trascorso per " + getId() + ": " + time /1000 + "s");   // Log
+            //System.out.println("Tempo trascorso per " + getId() + ": " + time /1000 + "s");   // Log
             Thread.sleep((long) (quantum));
+            if (getStreet().getFromStreet(position-1) == getId()) {
+                getStreet().setInStreet(position-1, -1);
+            }
 
             /**
              * Spazio percorso in un secondo
