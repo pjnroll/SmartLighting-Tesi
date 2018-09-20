@@ -97,7 +97,12 @@ public class Car implements Runnable {
             /*double metri = speed/3.6;
             position += metri;
             System.out.println("Spazio percorso da " + getId() + ": " + position + "m");    // Log
-            Thread.sleep(1000);*/
+            Thread.sleep(1000);
+            if (getStreet().getFromStreet(position-1) == getId()) {
+                for (int i = (int)(position-metri); i < position; i++) {
+                    getStreet().setInStreet(i, -1);
+                }
+            }*/
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

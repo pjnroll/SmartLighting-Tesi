@@ -7,11 +7,12 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 public class Street {
-    private final int STREET_LENGTH = 1050;
     private static int count_id = 0;
     private int id;
 
     private String name;
+    private int streetLength;
+
     private LinkedList<Streetlight> streetlights;
     private HashSet<Car> cars;
 
@@ -19,14 +20,16 @@ public class Street {
 
     private int[] street;
 
-    public Street(String name, LinkedList<Streetlight> streetlights) {
+    public Street(String name, LinkedList<Streetlight> streetlights, int streetLenght) {
         id = count_id;
         count_id++;
 
-        street = new int[STREET_LENGTH];
+        setName(name);
+        setStreetLength(streetLenght);
+
+        street = new int[getStreetLength()];
         Arrays.fill(street, -1);
 
-        setName(name);
         cars = new HashSet<>();
         this.streetlights = new LinkedList<>();
         setStreetlights(streetlights);
@@ -55,7 +58,7 @@ public class Street {
         return streetlights;
     }
 
-    private void setCar(Car car) throws CarAlreadyRunningException {
+    public void setCar(Car car) throws CarAlreadyRunningException {
         if (car != null && !car.getRunning()) {
             cars.add(car);
             car.setRunning(true);
@@ -80,7 +83,7 @@ public class Street {
     }
 
     public int getStreetLength() {
-        return STREET_LENGTH;
+        return streetLength;
     }
 
     private HashSet<Sensor> collectSensors() {
@@ -179,7 +182,7 @@ public class Street {
         }
 
         int k = 0;
-        for (int i = 0; i < STREET_LENGTH; i++) {
+        for (int i = 0; i < streetLength; i++) {
             asse.append(i).append("\t");
             if (k < lampioni.length && i == lampioni[k].getPosition()) {
                 toRetStreetLights.append(lampioni[k].getController().getLamp().getIntensity());
@@ -208,6 +211,10 @@ public class Street {
         for (int i = 0; i < getCars().size(); i++) {
             corsie.append(toRetCars[i]).append("\n");
         }
-        return asse + "\n" + toRetStreetLights.toString() + "\n" + corsie + "\n\n\n\n";
+        return /*asse + "\n" + */toRetStreetLights.toString() + "\n" + corsie + "\n\n\n\n";
+    }
+
+    public void setStreetLength(int streetLength) {
+        this.streetLength = streetLength;
     }
 }
