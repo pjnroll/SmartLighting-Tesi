@@ -90,14 +90,19 @@ public class PierOS {
          * Creo le auto e le aggiungo alla strada
          */
         Random random = new Random();
-        Car[] macchine = new Car[5];
-        for (int i = 0 ; i < 5; i++) {
-            macchine[i] = new Car((random.nextInt(40) + 50), 0);
+        HashSet<Car> cars = new HashSet<>();
+        Car[] macchine = new Car[15];
+        for (int i = 0 ; i < 15; i++) {
+            macchine[i] = new Car((random.nextInt(40) + 50), random.nextInt(streetLength/3));
+            cars.add(macchine[i]);
         }
         /*Car car = new Car((random.nextInt(40) + 50), 0);  // 90km/h
         Car car2 = new Car((random.nextInt(40) + 50), 0);  // 80km/h
         Car car3 = new Car((random.nextInt(40) + 50), 0);  // 80km/h*/
-        HashSet<Car> cars = new HashSet<>(Arrays.asList(macchine));
+
+        /*cars.add(car);
+        cars.add(car2);
+        cars.add(car3);*/
         for (Car c : cars) {
             try {
                 strada.setCar(c);
@@ -120,15 +125,11 @@ public class PierOS {
          */
         strada.turnOn();
 
-        System.out.println("Posizioni iniziali");
-        for (Car c : cars) {
-            System.out.println(c.getPosition());
-        }
-
         /**
          * Avvio le auto
          */
-        strada.start();
+        Thread myStreet = new Thread(strada);
+        myStreet.start();
         //System.out.println(strada);
     }
 }

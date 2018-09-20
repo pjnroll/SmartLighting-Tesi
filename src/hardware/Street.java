@@ -2,11 +2,9 @@ package hardware;
 
 import exceptions.CarAlreadyRunningException;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.*;
 
-public class Street {
+public class Street implements Runnable {
     private static int count_id = 0;
     private int id;
 
@@ -14,7 +12,7 @@ public class Street {
     private int streetLength;
 
     private LinkedList<Streetlight> streetlights;
-    private HashSet<Car> cars;
+    private TreeSet<Car> cars;
 
     private HashSet<Sensor> sensors;
 
@@ -30,7 +28,7 @@ public class Street {
         street = new int[getStreetLength()];
         Arrays.fill(street, -1);
 
-        cars = new HashSet<>();
+        cars = new TreeSet<>();
         this.streetlights = new LinkedList<>();
         setStreetlights(streetlights);
         sensors = new HashSet<>();
@@ -78,7 +76,7 @@ public class Street {
         }
     }
 
-    private HashSet<Car> getCars() {
+    private TreeSet<Car> getCars() {
         return cars;
     }
 
@@ -119,6 +117,10 @@ public class Street {
         return sensors;
     }
 
+    public void remCar(Car car) {
+        getCars().remove(car);
+    }
+
     public void turnOff() {
         for (Streetlight s : streetlights) {
             s.turnOffLamp();
@@ -146,7 +148,7 @@ public class Street {
         return toRet;
     }
 
-    public void start() {
+    /*public void start() {
         if (cars != null) {
             for (Car c : cars) {
                 if (c.getRunning()) {
@@ -155,7 +157,7 @@ public class Street {
                 }
             }
         }
-    }
+    }*/
 
     public void setInStreet(int position, int value) {
         street[position] = value;
@@ -211,10 +213,55 @@ public class Street {
         for (int i = 0; i < getCars().size(); i++) {
             corsie.append(toRetCars[i]).append("\n");
         }
-        return /*asse + "\n" + */toRetStreetLights.toString() + "\n" + corsie + "\n\n\n\n";
+
+        StringBuilder corsia = new StringBuilder();
+        for (int i = 0; i < getStreetLength(); i++) {
+            corsia.append(this.street[i]).append("\t");
+        }
+
+        return asse + "\n" + toRetStreetLights.toString() + "\n" + corsie + "\n\n\n\n";
     }
 
     public void setStreetLength(int streetLength) {
         this.streetLength = streetLength;
+    }
+
+    private boolean isEmpty() {
+        boolean toRet = false;
+
+        int[] emptyStreet = new int[getStreetLength()];
+        Arrays.fill(emptyStreet, -1);
+        if (Arrays.equals(street, emptyStreet)) {
+            toRet = true;
+        }
+
+        return toRet;
+    }
+
+    @Override
+    public void run() {
+        do {
+            try {
+                for (Sensor s : getSensors()) {
+                    s.detect();
+                }
+                Iterator<Car> it = cars.iterator();
+                while (it.hasNext()) {
+                    Car c = it.next();
+                    if (c.getRunning()) {
+                        c.run();
+                    } else {
+                        it.remove();
+                    }
+                }
+                for (Sensor s : getSensors()) {
+                    s.detect();
+                }
+                Thread.sleep(1000);
+                System.out.println(this);
+            } catch (InterruptedException | ConcurrentModificationException e) {
+                e.printStackTrace();
+            }
+        } while (!getCars().isEmpty());
     }
 }
