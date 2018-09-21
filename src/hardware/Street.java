@@ -22,6 +22,8 @@ public class Street implements Runnable {
 
     private double totalConsumption;
 
+    private int secondi;
+
     public Street(String name, LinkedList<Streetlight> streetlights, int streetLenght) {
         id = count_id;
         count_id++;
@@ -39,6 +41,7 @@ public class Street implements Runnable {
         sensors = new HashSet<>();
 
         totalConsumption = 0.0;
+        secondi = 0;
     }
 
     public int getId() {
@@ -249,16 +252,16 @@ public class Street implements Runnable {
 
     @Override
     public void run() {
-        /*for (Sensor s : getSensors()) {
+        for (Sensor s : getSensors()) {
             s.detect();
-        }*/
+        }
         System.out.println(this);
         do {
             totalConsumption += getTotalWatts()/3600;   // consumo al secondo
             try {
-                /*for (Sensor s : getSensors()) {
+                for (Sensor s : getSensors()) {
                     s.detect();
-                }*/
+                }
                 Iterator<Car> it = cars.iterator();
                 while (it.hasNext()) {
                     Car c = it.next();
@@ -268,15 +271,17 @@ public class Street implements Runnable {
                         it.remove();
                     }
                 }
-                /*for (Sensor s : getSensors()) {
+                for (Sensor s : getSensors()) {
                     s.detect();
-                }*/
+                }
                 Thread.sleep(1);
+                secondi++;
                 System.out.println(this);
             } catch (InterruptedException | ConcurrentModificationException e) {
                 e.printStackTrace();
             }
         } while (!getCars().isEmpty());
+        System.out.println("Tempo impiegato " + secondi + " secondi");
         System.out.println("Consumo totale " + totalConsumption + "Wh\nConsumo totale " + totalConsumption/1000 + "kWh\nConsumo totale " + totalConsumption*0.15/1000 + "Eur");
     }
 }

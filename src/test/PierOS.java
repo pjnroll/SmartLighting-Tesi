@@ -27,18 +27,18 @@ public class PierOS {
         /**
          * Creo 20 sensori LDR
          */
-        Sensor[] ldrSensors = new Sensor[n_streetlights];
+        /*Sensor[] ldrSensors = new Sensor[n_streetlights];
         for (int i = 0; i < n_streetlights; i++) {
             ldrSensors[i] = new Sensor(SENSOR_TYPE.LDR, ("LDR" + i), 0, 10);
-        }
+        }*/
 
         /**
          * Creo 20 sensori PIR
          */
-        /*Sensor[] pirSensors = new Sensor[n_streetlights];
+        Sensor[] pirSensors = new Sensor[n_streetlights];
         for (int i = 0; i < n_streetlights; i++) {
             pirSensors[i] = new Sensor(SENSOR_TYPE.PIR, ("PIR"+i), 0, 20);
-        }*/
+        }
 
         /**
          * Creo 20 batterie
@@ -55,8 +55,8 @@ public class PierOS {
         for (int i = 0; i < n_streetlights; i++) {
             HashSet<Component> components = new HashSet<>();
             components.add(lamps[i]);
-            components.add(ldrSensors[i]);
-            //components.add(pirSensors[i]);
+            //components.add(ldrSensors[i]);
+            components.add(pirSensors[i]);
             components.add(batteries[i]);
 
             controllers[i] = new Controller("CONTROLLER"+i, components);
