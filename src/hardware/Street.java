@@ -12,11 +12,15 @@ public class Street implements Runnable {
     private int streetLength;
 
     private LinkedList<Streetlight> streetlights;
+
+    private HashSet<Car> carsToSet;
     private TreeSet<Car> cars;
 
     private HashSet<Sensor> sensors;
 
     private int[] street;
+
+    private double totalConsumption;
 
     public Street(String name, LinkedList<Streetlight> streetlights, int streetLenght) {
         id = count_id;
@@ -28,10 +32,13 @@ public class Street implements Runnable {
         street = new int[getStreetLength()];
         Arrays.fill(street, -1);
 
+        carsToSet = new HashSet<>();
         cars = new TreeSet<>();
         this.streetlights = new LinkedList<>();
         setStreetlights(streetlights);
         sensors = new HashSet<>();
+
+        totalConsumption = 0.0;
     }
 
     public int getId() {
@@ -73,6 +80,13 @@ public class Street implements Runnable {
             for (Car c : cars) {
                 setCar(c);
             }
+        }
+    }
+
+    public void startCar() {
+        for (Car c : carsToSet) {
+            cars.add(c);
+            carsToSet.remove(c);
         }
     }
 
@@ -148,17 +162,6 @@ public class Street implements Runnable {
         return toRet;
     }
 
-    /*public void start() {
-        if (cars != null) {
-            for (Car c : cars) {
-                if (c.getRunning()) {
-                    Thread myThread = new Thread(c);
-                    myThread.start();
-                }
-            }
-        }
-    }*/
-
     public void setInStreet(int position, int value) {
         street[position] = value;
     }
@@ -222,17 +225,23 @@ public class Street implements Runnable {
         return asse + "\n" + toRetStreetLights.toString() + "\n" + corsie + "\n\n\n\n";
     }
 
-    public void setStreetLength(int streetLength) {
+    private void setStreetLength(int streetLength) {
         this.streetLength = streetLength;
     }
 
-    private boolean isEmpty() {
-        boolean toRet = false;
+    public double getConsumption() {
+        double consumption = 0.0;
 
-        int[] emptyStreet = new int[getStreetLength()];
-        Arrays.fill(emptyStreet, -1);
-        if (Arrays.equals(street, emptyStreet)) {
-            toRet = true;
+
+        return consumption;
+    }
+
+    public double getTotalWatts() {
+        double toRet = 0.0;
+        for (Streetlight s : streetlights) {
+            Lamp l = s.getController().getLamp();
+            double consumption = l.getWatt()*l.getIntensity()/100;
+            toRet += consumption;
         }
 
         return toRet;
@@ -240,11 +249,16 @@ public class Street implements Runnable {
 
     @Override
     public void run() {
+        /*for (Sensor s : getSensors()) {
+            s.detect();
+        }*/
+        System.out.println(this);
         do {
+            totalConsumption += getTotalWatts()/3600;   // consumo al secondo
             try {
-                for (Sensor s : getSensors()) {
+                /*for (Sensor s : getSensors()) {
                     s.detect();
-                }
+                }*/
                 Iterator<Car> it = cars.iterator();
                 while (it.hasNext()) {
                     Car c = it.next();
@@ -254,14 +268,15 @@ public class Street implements Runnable {
                         it.remove();
                     }
                 }
-                for (Sensor s : getSensors()) {
+                /*for (Sensor s : getSensors()) {
                     s.detect();
-                }
-                Thread.sleep(1000);
+                }*/
+                Thread.sleep(1);
                 System.out.println(this);
             } catch (InterruptedException | ConcurrentModificationException e) {
                 e.printStackTrace();
             }
         } while (!getCars().isEmpty());
+        System.out.println("Consumo totale " + totalConsumption + "Wh\nConsumo totale " + totalConsumption/1000 + "kWh\nConsumo totale " + totalConsumption*0.15/1000 + "Eur");
     }
 }

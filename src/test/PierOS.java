@@ -13,15 +13,15 @@ import java.util.Random;
 
 public class PierOS {
     public static void main(String args[]) {
-        int n_streetlights = 10;
-        int distance = 15;
+        int n_streetlights = 50;
+        int distance = 20;
         int streetLength = ((n_streetlights-1)*distance)+1;
         /**
          * Creo 20 lampade
          */
         Lamp[] lamps = new Lamp[n_streetlights];
         for (int i = 0; i < n_streetlights; i++) {
-            lamps[i] = new Lamp(LAMP_TYPE.LED, 25);
+            lamps[i] = new Lamp(LAMP_TYPE.LED, 150);
         }
 
         /**
@@ -91,11 +91,18 @@ public class PierOS {
          */
         Random random = new Random();
         HashSet<Car> cars = new HashSet<>();
-        Car[] macchine = new Car[15];
-        for (int i = 0 ; i < 15; i++) {
-            macchine[i] = new Car((random.nextInt(40) + 50), random.nextInt(streetLength/3));
+        Car[] macchine = new Car[10];
+        for (int i = 0 ; i < 10; i++) {
+            macchine[i] = new Car((random.nextInt(40) + 50), 0);
             cars.add(macchine[i]);
         }
+
+        try {
+            strada.setCars(cars);
+        } catch (CarAlreadyRunningException e) {
+            e.printStackTrace();
+        }
+
         /*Car car = new Car((random.nextInt(40) + 50), 0);  // 90km/h
         Car car2 = new Car((random.nextInt(40) + 50), 0);  // 80km/h
         Car car3 = new Car((random.nextInt(40) + 50), 0);  // 80km/h*/
@@ -103,13 +110,13 @@ public class PierOS {
         /*cars.add(car);
         cars.add(car2);
         cars.add(car3);*/
-        for (Car c : cars) {
+        /*for (Car c : cars) {
             try {
                 strada.setCar(c);
             } catch (CarAlreadyRunningException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         /*cars.add(car);
         cars.add(car2);
         cars.add(car3);*/

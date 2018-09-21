@@ -5,21 +5,21 @@ public class Battery extends Component {
     private int id;
 
     private String name;
-    private int voltage;
+    private int watt;
 
-    public Battery(String name, int voltage) {
+    public Battery(String name, int watt) {
         id = count_id;
         count_id++;
 
         setName(name);
-        setVoltage(voltage);
+        setWatt(watt);
 
         setAttached(false);
         setController(null);
     }
 
     /**
-     * Zero is the default voltage value, but it must be set the actual value
+     * Zero is the default watt value, but it must be set the actual value
      * WARNING
      * @param name
      */
@@ -32,12 +32,12 @@ public class Battery extends Component {
         this.name = name;
     }
 
-    private void setVoltage(int voltage) {
-        this.voltage = voltage;
+    private void setWatt(int watt) {
+        this.watt = watt;
     }
     /********************/
 
     public String toString() {
-        return "(Batteria: " + name + " " + voltage + " V)";
+        return "(Batteria: " + name + " " + watt + " V)";
     }
 }
