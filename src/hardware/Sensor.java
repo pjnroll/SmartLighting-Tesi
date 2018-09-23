@@ -93,7 +93,33 @@ public class Sensor extends Component implements Comparable<Sensor> {
         }
 
         if (detected) {
+            // Accendo i lampioni per garantire una visibilità per almeno 5 secondi
             getController().dimLamp(100);
+            Street myStreet = getController().getStreetlight().getStreet();
+            Car c;
+            int speed;
+            int spaceToTurnOn;
+
+            for (int i = myPos; i > 0; i--) {
+                c = myStreet.findCarByPosition(i);
+                if (c != null) {
+                    speed = c.getSpeed();
+                    for (Streetlight s : myStreet.getStreetlights()) {
+                        if (s.getPosition() == myPos) {
+                            int dist = (myStreet.getStreetLength()-1)/(myStreet.getStreetlights().size()-1);
+                            int stopTime = (int) ((speed*speed)/15.68);
+                            spaceToTurnOn = (int) ((speed/3.6) + stopTime);
+                            int lampToTurnOn = spaceToTurnOn/dist;
+                            int index = myPos;
+                            while (index + dist <= myStreet.getStreetLength() && lampToTurnOn > 0) {
+                                index += dist;
+                                myStreet.findStreetlightByPosition(index).getController().dimLamp(100);
+                                lampToTurnOn--;
+                            }
+                        }
+                    }
+                }
+            }
         } else {
             getController().dimLamp(20);
         }

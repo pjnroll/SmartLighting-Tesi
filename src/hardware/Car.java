@@ -43,6 +43,10 @@ public class Car implements Runnable, Comparable<Car> {
         this.position = position;
     }
 
+    public int getSpeed() {
+        return speed;
+    }
+
     public int getPosition() {
         return position;
     }

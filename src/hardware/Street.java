@@ -62,7 +62,7 @@ public class Street implements Runnable {
         }
     }
 
-    private LinkedList<Streetlight> getStreetlights() {
+    public LinkedList<Streetlight> getStreetlights() {
         return streetlights;
     }
 
