@@ -75,26 +75,23 @@ public class Sensor extends Component {
 
     public void detect() {
         int myPos = getPosition();                                  //35
-        int range = getMaxThreshold()-getMinThreshold();            //10
+        int range = getMaxThreshold() - getMinThreshold();            //10
         int[] streetNow = getController().getStreetlight().getStreet().getArrayStreet();
         boolean detected = false;
 
         if (getSensor_type().equals(SENSOR_TYPE.PIR)) {
             //System.out.println(getController().getStreetlight().getId() + " CONTROLLA DA " + (myPos-(range/2)) + " a " + (myPos+(range/2)));
-            for (int i = myPos-(range/2); i < myPos+(range/2) && !detected; i++) {
+            for (int i = myPos - (range / 2); i < myPos + (range / 2) && !detected; i++) {
                 if (i > -1 && i < streetNow.length && streetNow[i] != -1) {
                     detected = true;
                 }
             }
-        } else if (getSensor_type().equals(SENSOR_TYPE.LDR)) {      //true
-            for (int i = myPos-range; i < myPos && !detected; i++) {    // i = 25; 25 < 35
-                if (i > 9 && i < streetNow.length && streetNow[i] == -2) {   // 25 > 9; 25 < 140; streetNow[15] == -1
-                    detected = true;
-                }
+        } else if (getSensor_type().equals(SENSOR_TYPE.LDR)) {
+            if (streetNow[myPos] != -1) {
+                detected = true;
             }
-            // il fascio di luce emesso dai fanali è di circa 10 metri, quindi
-            // value corrisponde all'intensità
         }
+
         if (detected) {
             getController().dimLamp(100);
         } else {
