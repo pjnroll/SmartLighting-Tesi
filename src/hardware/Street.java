@@ -16,7 +16,7 @@ public class Street implements Runnable {
     private HashSet<Car> carsToSet;
     private TreeSet<Car> cars;
 
-    private HashSet<Sensor> sensors;
+    private TreeSet<Sensor> sensors;
 
     private int[] street;
 
@@ -38,7 +38,7 @@ public class Street implements Runnable {
         cars = new TreeSet<>();
         this.streetlights = new LinkedList<>();
         setStreetlights(streetlights);
-        sensors = new HashSet<>();
+        sensors = new TreeSet<>();
 
         totalConsumption = 0.0;
         secondi = 0;
@@ -101,8 +101,8 @@ public class Street implements Runnable {
         return streetLength;
     }
 
-    private HashSet<Sensor> collectSensors() {
-        HashSet<Sensor> sensors = new HashSet<>();
+    private TreeSet<Sensor> collectSensors() {
+        TreeSet<Sensor> sensors = new TreeSet<>();
         for (Streetlight s : getStreetlights()) {
             HashSet<Component> components = s.getController().getComponents();
             for (Component c : components) {
@@ -130,7 +130,7 @@ public class Street implements Runnable {
         }
     }
 
-    public HashSet<Sensor> getSensors() {
+    public TreeSet<Sensor> getSensors() {
         return sensors;
     }
 
@@ -253,6 +253,7 @@ public class Street implements Runnable {
     @Override
     public void run() {
         for (Sensor s : getSensors()) {
+            System.out.println("Pos " + s.getPosition());
             s.detect();
         }
         System.out.println(this);

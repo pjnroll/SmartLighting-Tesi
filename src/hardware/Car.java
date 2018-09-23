@@ -67,7 +67,7 @@ public class Car implements Runnable, Comparable<Car> {
     public void run() {
         int prevPos = position;
         position += space;
-        if (position > getStreet().getStreetLength()) {
+        if (position >= getStreet().getStreetLength()) {
             clean(prevPos, getStreet().getStreetLength());
             setRunning(false);
         } else {
@@ -205,11 +205,10 @@ public class Car implements Runnable, Comparable<Car> {
 
     @Override
     public int compareTo(Car o) {
-        int toRet = -1;
-        if (this.speed < o.speed) {
-            toRet = 1;
+        int toRet = o.speed - this.speed;
+        if (toRet == 0) {
+            toRet = o.position - this.position;
         }
-
         return toRet;
     }
 }

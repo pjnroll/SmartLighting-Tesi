@@ -91,8 +91,8 @@ public class PierOS {
          */
         Random random = new Random();
         HashSet<Car> cars = new HashSet<>();
-        Car[] macchine = new Car[1];
-        for (int i = 0 ; i < 1; i++) {
+        Car[] macchine = new Car[10];
+        for (int i = 0 ; i < 10; i++) {
             macchine[i] = new Car((random.nextInt(40) + 50), 0);
             cars.add(macchine[i]);
         }

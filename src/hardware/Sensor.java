@@ -2,7 +2,7 @@ package hardware;
 
 import helper.SENSOR_TYPE;
 
-public class Sensor extends Component {
+public class Sensor extends Component implements Comparable<Sensor> {
     private static int count_id = 0;
     private int id;
 
@@ -101,5 +101,15 @@ public class Sensor extends Component {
 
     public String toString() {
         return "(Sensore: " + sensor_type.name() + " range " + minThreshold + "-" + maxThreshold + ")";
+    }
+
+    @Override
+    public int compareTo(Sensor o) {
+        int toRet = -1;
+        if (this.getPosition() < o.getPosition()) {
+            toRet = 1;
+        }
+
+        return toRet;
     }
 }
