@@ -225,6 +225,7 @@ public class Street implements Runnable {
             corsia.append(this.street[i]).append("\t");
         }
 
+
         return asse + "\n" + toRetStreetLights.toString() + "\n" + corsie + "\n\n\n\n";
     }
 
@@ -263,6 +264,13 @@ public class Street implements Runnable {
                 for (Sensor s : getSensors()) {
                     s.detect();
                 }
+                int cont = 0;
+                for (Car c : cars) {
+                    if (c.getPosition() > 0) {
+                        cont++;
+                    }
+                }
+                System.out.println("Auto in carreggiata: " + cont);
                 Iterator<Car> it = cars.iterator();
                 while (it.hasNext()) {
                     Car c = it.next();
