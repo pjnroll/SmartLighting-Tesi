@@ -212,6 +212,9 @@ public class Car implements Runnable, Comparable<Car> {
         int toRet = o.speed - this.speed;
         if (toRet == 0) {
             toRet = o.position - this.position;
+            if (toRet == 0) {
+                toRet = -1;
+            }
         }
         return toRet;
     }
