@@ -19,6 +19,7 @@ public class Street implements Runnable {
     private TreeSet<Sensor> sensors;
 
     private int[] street;
+    private int[] emptyStreet;
 
     private double totalConsumption;
 
@@ -28,6 +29,8 @@ public class Street implements Runnable {
         id = count_id;
         count_id++;
 
+        emptyStreet = new int[streetLenght];
+        Arrays.fill(emptyStreet, -1);
         setName(name);
         setStreetLength(streetLenght);
 
@@ -177,6 +180,10 @@ public class Street implements Runnable {
         return street;
     }
 
+    public int[] getEmptyArrayStreet() {
+        return emptyStreet;
+    }
+
     @Override
     public String toString() {
         StringBuilder asse = new StringBuilder();
@@ -261,9 +268,9 @@ public class Street implements Runnable {
         do {
             totalConsumption += getTotalWatts()/3600;   // consumo al secondo
             try {
-                for (Sensor s : getSensors()) {
+                /*for (Sensor s : getSensors()) {
                     s.detect();
-                }
+                }*/
                 int cont = 0;
                 for (Car c : cars) {
                     if (c.getPosition() > 0) {

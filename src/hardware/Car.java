@@ -1,7 +1,7 @@
 package hardware;
 
 public class Car implements Runnable, Comparable<Car> {
-    public static final int HEADLIGHTS_LENGTH = 10;
+    public static final int HEADLIGHTS_LENGTH = 15;
     private static int count_id = 0;
     private int id;
 
@@ -13,6 +13,8 @@ public class Car implements Runnable, Comparable<Car> {
 
     private double time;
     private int space;
+
+    int[] streetNow;
 
     public Car(int speed, int position) {
         id = count_id;
@@ -72,13 +74,14 @@ public class Car implements Runnable, Comparable<Car> {
     public void run() {
         int prevPos = position;
         position += space;
+        streetNow = getStreet().getEmptyArrayStreet();
         if (position >= getStreet().getStreetLength()) {
-            clean(prevPos, getStreet().getStreetLength());
+            //clean(prevPos, getStreet().getStreetLength());
             setRunning(false);
         } else if (prevPos > 0 && position > 0 && position < getStreet().getStreetLength()){
             //System.out.println("Spazio percorso da " + getId() + ": " + position + "m");    // Log
 
-            clean(prevPos, position);
+            //clean(prevPos, position);
             move();
         }
             //while (running && position < getStreet().getStreetLength()) {
@@ -138,9 +141,11 @@ public class Car implements Runnable, Comparable<Car> {
     }
 
     private void move() {
-        int d = position;
-        while (d < position + HEADLIGHTS_LENGTH && d+1 < getStreet().getStreetLength()) {
-            getStreet().setInStreet(d, -2);
+        streetNow[position] = id;
+        int d = position+1;
+        while (d < position + HEADLIGHTS_LENGTH && d < getStreet().getStreetLength()) {
+            //getStreet().setInStreet(d, -2);
+            streetNow[d] = -2;
             d++;
         }
     }

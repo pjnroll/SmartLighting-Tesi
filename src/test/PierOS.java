@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class PierOS {
     public static void main(String args[]) {
-        int n_streetlights = 458;
+        int n_streetlights = 8;
         int distance = 35;
         int streetLength = ((n_streetlights-1)*distance)+1;
         /**
@@ -91,8 +91,8 @@ public class PierOS {
          */
         Random random = new Random();
         HashSet<Car> cars = new HashSet<>();
-        Car[] macchine = new Car[50];
-        for (int i = 0 ; i < 50; i++) {
+        Car[] macchine = new Car[5];
+        for (int i = 0 ; i < 5; i++) {
             macchine[i] = new Car((random.nextInt(40) + 50), random.nextInt(streetLength)-streetLength);
             cars.add(macchine[i]);
         }
