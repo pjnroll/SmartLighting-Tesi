@@ -76,19 +76,20 @@ public class Sensor extends Component implements Comparable<Sensor> {
     public void detect() {
         int myPos = getPosition();                                  //35
         int range = getMaxThreshold() - getMinThreshold();            //10
-        int[] streetNow = getController().getStreetlight().getStreet().getArrayStreet();
+//        int[] streetNow = getController().getStreetlight().getStreet().getACTUAL_STREET();
         boolean detected = false;
+
         int intensity = getController().getLamp().getIntensity();
 
         if (getSensor_type().equals(SENSOR_TYPE.PIR)) {
             //System.out.println(getController().getStreetlight().getId() + " CONTROLLA DA " + (myPos-(range/2)) + " a " + (myPos+(range/2)));
             for (int i = myPos - (range / 2); i < myPos + (range / 2) && !detected; i++) {
-                if (i > -1 && i < streetNow.length && streetNow[i] != -1) {
+                if (i > -1 && i < Street.ACTUAL_STREET.length && Street.ACTUAL_STREET[i] != -1) {
                     detected = true;
                 }
             }
         } else if (getSensor_type().equals(SENSOR_TYPE.LDR)) {
-            if (streetNow[myPos] != -1) {
+            if (Street.ACTUAL_STREET[myPos] != -1) {
                 detected = true;
             }
         }
@@ -100,10 +101,11 @@ public class Sensor extends Component implements Comparable<Sensor> {
             Car c;
             int speed;
             int spaceToTurnOn;
-
-            for (int i = myPos; i > 0; i--) {
+            boolean found = false;
+            for (int i = myPos; i > 0 && !found; i--) {
                 c = myStreet.findCarByPosition(i);
                 if (c != null) {
+                    found = true;
                     speed = c.getSpeed();
                     for (Streetlight s : myStreet.getStreetlights()) {
                         if (s.getPosition() == myPos) {
@@ -121,7 +123,7 @@ public class Sensor extends Component implements Comparable<Sensor> {
                     }
                 }
             }
-        } else if ( !detected && intensity > 20) {
+        } else if (intensity > 20) {
             intensity -= 20;
             getController().dimLamp(intensity);
         }

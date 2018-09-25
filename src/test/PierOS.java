@@ -12,6 +12,8 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class PierOS {
+    private final static int n_cars = 1;
+
     public static void main(String args[]) {
         int n_streetlights = 8;
         int distance = 35;
@@ -91,8 +93,8 @@ public class PierOS {
          */
         Random random = new Random();
         HashSet<Car> cars = new HashSet<>();
-        Car[] macchine = new Car[5];
-        for (int i = 0 ; i < 5; i++) {
+        Car[] macchine = new Car[n_cars];
+        for (int i = 0 ; i < n_cars; i++) {
             macchine[i] = new Car((random.nextInt(40) + 50), random.nextInt(streetLength)-streetLength);
             cars.add(macchine[i]);
         }

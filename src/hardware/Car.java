@@ -14,8 +14,6 @@ public class Car implements Runnable, Comparable<Car> {
     private double time;
     private int space;
 
-    int[] streetNow;
-
     public Car(int speed, int position) {
         id = count_id;
         count_id++;
@@ -74,11 +72,11 @@ public class Car implements Runnable, Comparable<Car> {
     public void run() {
         int prevPos = position;
         position += space;
-        streetNow = getStreet().getEmptyArrayStreet();
+        // prelevo la street e alla fine la aggiorno
         if (position >= getStreet().getStreetLength()) {
             //clean(prevPos, getStreet().getStreetLength());
             setRunning(false);
-        } else if (prevPos > 0 && position > 0 && position < getStreet().getStreetLength()){
+        } else if (position > 0 && position < getStreet().getStreetLength()){
             //System.out.println("Spazio percorso da " + getId() + ": " + position + "m");    // Log
 
             //clean(prevPos, position);
@@ -141,72 +139,13 @@ public class Car implements Runnable, Comparable<Car> {
     }
 
     private void move() {
-        streetNow[position] = id;
+        Street.ACTUAL_STREET[position] = id;
         int d = position+1;
         while (d < position + HEADLIGHTS_LENGTH && d < getStreet().getStreetLength()) {
             //getStreet().setInStreet(d, -2);
-            streetNow[d] = -2;
+            Street.ACTUAL_STREET[d] = -2;
             d++;
         }
-    }
-
-    private void clean(int prevPos, int position) {
-        for (int i = prevPos; i < position && position < getStreet().getStreetLength(); i++) {
-            getStreet().setInStreet(i, -1);
-        }
-
-        /*System.out.println("position " + position + "\nstreetlength " + getStreet().getStreetLength() + "\ngetfromstreet " + getStreet().getFromStreet(position) + "\nid " + getId());
-        if ((position) < getStreet().getStreetLength() && getStreet().getFromStreet(position) == getId()) {
-            for (int i = prevPos; i < position; i++) {
-                if (getStreet().getFromStreet(i) == -1) {
-                    getStreet().setInStreet(i, -2);
-                }
-            }
-        }*/
-
-        /*for (int i = 0; i < position-prevPos; i++) {   // per quanti metri devo farlo
-            for (int j = prevPos+1; j < prevPos+11 && j < getStreet().getStreetLength(); j++) {
-                if ((prevPos-1) > -1 && getStreet().getFromStreet(j-1) == getId()) {
-                    getStreet().setInStreet(prevPos-1, -1);
-                }
-
-                if (getStreet().getFromStreet(j) == -1) {
-                    getStreet().setInStreet(j, -2);
-                }
-            }
-        }*/
-
-        /*try {
-            *//**
-             * Tempo per percorrere un metro
-             *//*
-            *//*position++;
-            double quantum = 1/(speed/3.6)*1000;
-            time += quantum;
-            //System.out.println("Tempo trascorso per " + getId() + ": " + time /1000 + "s");   // Log
-            Thread.sleep((long) (quantum));
-            if (getStreet().getFromStreet(position-1) == getId()) {
-                getStreet().setInStreet(position-1, -1);
-            }*//*
-
-            *//**
-             * Spazio percorso in un secondo
-             *//*
-            double metri = speed/3.6;
-            double prevPos = position;
-            position += metri;
-            System.out.println("Spazio percorso da " + getId() + ": " + position + "m");    // Log
-            Thread.sleep(1000);
-            if ((position-1) < getStreet().getStreetLength() && getStreet().getFromStreet(position-1) == getId()) {
-                for (int i = (int)prevPos; i < position; i++) {
-                    if (getStreet().getFromStreet(i) == -1) {
-                        getStreet().setInStreet(i, -1);
-                    }
-                }
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
     }
 
     public String toString() {
@@ -215,13 +154,7 @@ public class Car implements Runnable, Comparable<Car> {
 
     @Override
     public int compareTo(Car o) {
-        int toRet = o.speed - this.speed;
-        if (toRet == 0) {
-            toRet = o.position - this.position;
-            if (toRet == 0) {
-                toRet = -1;
-            }
-        }
-        return toRet;
+        int toRet = this.position - o.position;
+        return (toRet == 0) ? -1 : toRet;
     }
 }

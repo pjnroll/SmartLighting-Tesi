@@ -6,6 +6,9 @@ import java.util.*;
 
 public class Street implements Runnable {
     private static int count_id = 0;
+
+
+    public static int[] ACTUAL_STREET;
     private int id;
 
     private String name;
@@ -18,7 +21,6 @@ public class Street implements Runnable {
 
     private TreeSet<Sensor> sensors;
 
-    private int[] street;
     private int[] emptyStreet;
 
     private double totalConsumption;
@@ -34,8 +36,8 @@ public class Street implements Runnable {
         setName(name);
         setStreetLength(streetLenght);
 
-        street = new int[getStreetLength()];
-        Arrays.fill(street, -1);
+        ACTUAL_STREET = new int[streetLenght];
+        Arrays.fill(ACTUAL_STREET, -1);
 
         carsToSet = new HashSet<>();
         cars = new TreeSet<>();
@@ -53,6 +55,14 @@ public class Street implements Runnable {
 
     public String getName() {
         return name;
+    }
+
+    public int[] getACTUAL_STREET() {
+        return ACTUAL_STREET;
+    }
+
+    public void setACTUAL_STREET(int[] ACTUAL_STREET) {
+        Street.ACTUAL_STREET = ACTUAL_STREET;
     }
 
     private void setName(String name) {
@@ -168,16 +178,8 @@ public class Street implements Runnable {
         return toRet;
     }
 
-    public void setInStreet(int position, int value) {
-        street[position] = value;
-    }
-
     public int getFromStreet(int position) {
-        return street[position];
-    }
-
-    public int[] getArrayStreet() {
-        return street;
+        return ACTUAL_STREET[position];
     }
 
     public int[] getEmptyArrayStreet() {
@@ -229,7 +231,7 @@ public class Street implements Runnable {
 
         StringBuilder corsia = new StringBuilder();
         for (int i = 0; i < getStreetLength(); i++) {
-            corsia.append(this.street[i]).append("\t");
+            corsia.append(this.ACTUAL_STREET[i]).append("\t");
         }
 
 
@@ -277,6 +279,7 @@ public class Street implements Runnable {
                         cont++;
                     }
                 }
+                Arrays.fill(ACTUAL_STREET, -1);
                 System.out.println("Auto in carreggiata: " + cont);
                 Iterator<Car> it = cars.iterator();
                 while (it.hasNext()) {
