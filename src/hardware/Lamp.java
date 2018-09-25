@@ -49,10 +49,6 @@ public class Lamp extends Component {
         return status;
     }
 
-    public LAMP_TYPE getLamp_type() {
-        return lamp_type;
-    }
-
     public int getWatt() {
         return watt;
     }

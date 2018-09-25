@@ -58,10 +58,6 @@ public class Controller {
         return battery;
     }
 
-    public int getPosition() {
-        return position;
-    }
-
     private void setName(String name) {
         this.name = name;
     }
@@ -166,7 +162,7 @@ public class Controller {
         }
     }
 
-    public void remComponent(Component c) throws Exception {
+    private void remComponent(Component c) throws Exception {
         if (c != null && c.getAttached() && c.getController().equals(this)) {
             if (c instanceof Sensor) {
                 remSensor((Sensor) c);

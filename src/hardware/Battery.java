@@ -18,15 +18,6 @@ public class Battery extends Component {
         setController(null);
     }
 
-    /**
-     * Zero is the default watt value, but it must be set the actual value
-     * WARNING
-     * @param name
-     */
-    public Battery(String name) {
-        this(name,0);
-    }
-
     /** GETTERS SETTERS */
     private void setName(String name) {
         this.name = name;

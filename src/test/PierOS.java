@@ -6,7 +6,6 @@ import hardware.*;
 import helper.LAMP_TYPE;
 import helper.SENSOR_TYPE;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
@@ -57,8 +56,8 @@ public class PierOS {
         for (int i = 0; i < n_streetlights; i++) {
             HashSet<Component> components = new HashSet<>();
             components.add(lamps[i]);
-            components.add(ldrSensors[i]);
-            //components.add(pirSensors[i]);
+            //components.add(ldrSensors[i]);
+            components.add(pirSensors[i]);
             components.add(batteries[i]);
 
             controllers[i] = new Controller("CONTROLLER"+i, components);
@@ -105,30 +104,6 @@ public class PierOS {
             e.printStackTrace();
         }
 
-        /*Car car = new Car((random.nextInt(40) + 50), 0);  // 90km/h
-        Car car2 = new Car((random.nextInt(40) + 50), 0);  // 80km/h
-        Car car3 = new Car((random.nextInt(40) + 50), 0);  // 80km/h*/
-
-        /*cars.add(car);
-        cars.add(car2);
-        cars.add(car3);*/
-        /*for (Car c : cars) {
-            try {
-                strada.setCar(c);
-            } catch (CarAlreadyRunningException e) {
-                e.printStackTrace();
-            }
-        }*/
-        /*cars.add(car);
-        cars.add(car2);
-        cars.add(car3);*/
-
-        /*try {
-            strada.setCars(cars);
-        } catch (CarAlreadyRunningException e) {
-            e.printStackTrace();
-        }*/
-
         /**
          * Accendo i lampioni
          */
@@ -139,6 +114,5 @@ public class PierOS {
          */
         Thread myStreet = new Thread(strada);
         myStreet.start();
-        //System.out.println(strada);
     }
 }

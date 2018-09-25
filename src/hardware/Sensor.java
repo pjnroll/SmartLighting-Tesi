@@ -74,15 +74,14 @@ public class Sensor extends Component implements Comparable<Sensor> {
     /********************/
 
     public void detect() {
-        int myPos = getPosition();                                  //35
-        int range = getMaxThreshold() - getMinThreshold();            //10
-//        int[] streetNow = getController().getStreetlight().getStreet().getACTUAL_STREET();
+        int myPos = getPosition();
+        int range = getMaxThreshold() - getMinThreshold();
+
         boolean detected = false;
 
         int intensity = getController().getLamp().getIntensity();
 
         if (getSensor_type().equals(SENSOR_TYPE.PIR)) {
-            //System.out.println(getController().getStreetlight().getId() + " CONTROLLA DA " + (myPos-(range/2)) + " a " + (myPos+(range/2)));
             for (int i = myPos - (range / 2); i < myPos + (range / 2) && !detected; i++) {
                 if (i > -1 && i < Street.ACTUAL_STREET.length && Street.ACTUAL_STREET[i] != -1) {
                     detected = true;

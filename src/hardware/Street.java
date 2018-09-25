@@ -21,8 +21,6 @@ public class Street implements Runnable {
 
     private TreeSet<Sensor> sensors;
 
-    private int[] emptyStreet;
-
     private double totalConsumption;
 
     private int secondi;
@@ -31,8 +29,6 @@ public class Street implements Runnable {
         id = count_id;
         count_id++;
 
-        emptyStreet = new int[streetLenght];
-        Arrays.fill(emptyStreet, -1);
         setName(name);
         setStreetLength(streetLenght);
 
@@ -49,22 +45,6 @@ public class Street implements Runnable {
         secondi = 0;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int[] getACTUAL_STREET() {
-        return ACTUAL_STREET;
-    }
-
-    public void setACTUAL_STREET(int[] ACTUAL_STREET) {
-        Street.ACTUAL_STREET = ACTUAL_STREET;
-    }
-
     private void setName(String name) {
         this.name = name;
     }
@@ -79,7 +59,7 @@ public class Street implements Runnable {
         return streetlights;
     }
 
-    public void setCar(Car car) throws CarAlreadyRunningException {
+    private void setCar(Car car) throws CarAlreadyRunningException {
         if (car != null && !car.getRunning()) {
             cars.add(car);
             car.setRunning(true);
@@ -143,7 +123,7 @@ public class Street implements Runnable {
         }
     }
 
-    public TreeSet<Sensor> getSensors() {
+    private TreeSet<Sensor> getSensors() {
         return sensors;
     }
 
@@ -176,14 +156,6 @@ public class Street implements Runnable {
         }
 
         return toRet;
-    }
-
-    public int getFromStreet(int position) {
-        return ACTUAL_STREET[position];
-    }
-
-    public int[] getEmptyArrayStreet() {
-        return emptyStreet;
     }
 
     @Override
@@ -231,11 +203,11 @@ public class Street implements Runnable {
 
         StringBuilder corsia = new StringBuilder();
         for (int i = 0; i < getStreetLength(); i++) {
-            corsia.append(this.ACTUAL_STREET[i]).append("\t");
+            corsia.append(ACTUAL_STREET[i]).append("\t");
         }
 
 
-        return asse + "\n" + toRetStreetLights.toString() + "\n" + corsie + "\n\n\n\n";
+        return asse + "\n" + toRetStreetLights.toString() + "\n" + corsia + "\n\n\n\n";
     }
 
     private void setStreetLength(int streetLength) {
