@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class PierOS {
+public class MainClass {
     private final static int n_cars = 10;
 
     public static void main(String args[]) {
