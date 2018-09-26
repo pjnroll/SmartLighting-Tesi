@@ -109,7 +109,7 @@ public class Sensor extends Component implements Comparable<Sensor> {
                     for (Streetlight s : myStreet.getStreetlights()) {
                         if (s.getPosition() == myPos) {
                             int dist = (myStreet.getStreetLength()-1)/(myStreet.getStreetlights().size()-1);
-                            int stopTime = (int) ((speed*speed)/15.68);
+                            int stopTime = (int) ((speed*speed)/15.68); // spazio frenata = (v*v)/(2*coeff*a)   [coeff = 0.05, 0.4, 0.8; a = g = 9.8m/s^2)
                             spaceToTurnOn = (int) ((speed/3.6) + stopTime);
                             int lampToTurnOn = spaceToTurnOn/dist;
                             int index = myPos;
