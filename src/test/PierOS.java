@@ -11,10 +11,10 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class PierOS {
-    private final static int n_cars = 1;
+    private final static int n_cars = 10;
 
     public static void main(String args[]) {
-        int n_streetlights = 8;
+        int n_streetlights = 29;
         int distance = 35;
         int streetLength = ((n_streetlights-1)*distance)+1;
         /**
@@ -56,8 +56,8 @@ public class PierOS {
         for (int i = 0; i < n_streetlights; i++) {
             HashSet<Component> components = new HashSet<>();
             components.add(lamps[i]);
-            //components.add(ldrSensors[i]);
-            components.add(pirSensors[i]);
+            components.add(ldrSensors[i]);
+            //components.add(pirSensors[i]);
             components.add(batteries[i]);
 
             controllers[i] = new Controller("CONTROLLER"+i, components);

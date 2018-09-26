@@ -207,7 +207,7 @@ public class Street implements Runnable {
         }
 
 
-        return asse + "\n" + toRetStreetLights.toString() + "\n" + corsia + "\n\n\n\n";
+        return asse + "\n" + toRetStreetLights.toString() + "\n" + corsia + "\n\n\n";
     }
 
     private void setStreetLength(int streetLength) {
@@ -221,7 +221,7 @@ public class Street implements Runnable {
         return consumption;
     }
 
-    public double getTotalWatts() {
+    private double getTotalWatts() {
         double toRet = 0.0;
         for (Streetlight s : streetlights) {
             Lamp l = s.getController().getLamp();
@@ -240,8 +240,9 @@ public class Street implements Runnable {
         }
         System.out.println(this);
         do {
-            totalConsumption += getTotalWatts()/3600;   // consumo al secondo
+            totalConsumption += getTotalWatts();   // Consumo in Ws
             try {
+                // NON DECOMMENTARE
                 /*for (Sensor s : getSensors()) {
                     s.detect();
                 }*/
@@ -272,6 +273,7 @@ public class Street implements Runnable {
                 e.printStackTrace();
             }
         } while (!getCars().isEmpty());
+        totalConsumption = totalConsumption/3600;
         System.out.println("Tempo impiegato " + secondi + " secondi");
         System.out.println("Consumo totale " + totalConsumption + "Wh\nConsumo totale " + totalConsumption/1000 + "kWh\nConsumo totale " + totalConsumption*0.15/1000 + "Eur");
     }
