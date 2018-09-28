@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class MainClass {
-    private final static int n_cars = 10000;
+    private final static int n_cars = 250000;
 
     public static void main(String args[]) {
         int n_streetlights = 458;
@@ -94,12 +94,12 @@ public class MainClass {
         HashSet<Car> cars = new HashSet<>();
         Car[] macchine = new Car[n_cars];
         for (int i = 0 ; i < n_cars; i++) {
-            macchine[i] = new Car((random.nextInt(40) + 50), random.nextInt(streetLength)-streetLength);
+            macchine[i] = new Car((random.nextInt(40) + 50), (int) (random.nextInt(streetLength)-streetLength*1.5));
             cars.add(macchine[i]);
         }
 
         try {
-            strada.setCars(cars);
+            strada.setAllCars(cars);
         } catch (CarAlreadyRunningException e) {
             e.printStackTrace();
         }

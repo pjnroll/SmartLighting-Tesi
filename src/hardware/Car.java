@@ -90,12 +90,13 @@ public class Car implements Runnable, Comparable<Car> {
     }
 
     public String toString() {
-        return "(Macchina: " + getId() + " " + speed + "km/h";
+        return "(Macchina: " + getId() + " " + "pos " + position + "   " + speed + "km/h";
     }
 
     @Override
     public int compareTo(Car o) {
-        int toRet = this.position - o.position;
-        return (toRet == 0) ? -1 : toRet;
+        int toRetPos = o.position - this.position;
+        int toRetSpeed = o.speed - this.speed;
+        return (toRetPos == 0) ? ((toRetSpeed == 0) ? -1 : toRetSpeed) : toRetPos;
     }
 }

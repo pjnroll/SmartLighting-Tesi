@@ -16,13 +16,15 @@ public class Street implements Runnable {
 
     private LinkedList<Streetlight> streetlights;
 
-    private HashSet<Car> carsToSet;
-    private TreeSet<Car> cars;
+    private HashSet<Car> allCars;
+    private TreeSet<Car> inCars;
+    private TreeSet<Car> outCars;
 
     private TreeSet<Sensor> sensors;
 
     private double totalConsumption;
 
+    private int capacity;
     private int secondi;
 
     public Street(String name, LinkedList<Streetlight> streetlights, int streetLenght) {
@@ -35,13 +37,18 @@ public class Street implements Runnable {
         ACTUAL_STREET = new int[streetLenght];
         Arrays.fill(ACTUAL_STREET, -1);
 
-        carsToSet = new HashSet<>();
-        cars = new TreeSet<>();
+        allCars = new HashSet<>();
+
+        inCars = new TreeSet<>();
+        outCars = new TreeSet<>();
+
         this.streetlights = new LinkedList<>();
         setStreetlights(streetlights);
         sensors = new TreeSet<>();
 
         totalConsumption = 0.0;
+
+        capacity = streetLenght*3/4;
         secondi = 0;
     }
 
@@ -61,7 +68,7 @@ public class Street implements Runnable {
 
     private void setCar(Car car) throws CarAlreadyRunningException {
         if (car != null && !car.getRunning()) {
-            cars.add(car);
+            allCars.add(car);
             car.setRunning(true);
             car.setStreet(this);
         } else if (car == null) {
@@ -71,23 +78,16 @@ public class Street implements Runnable {
         }
     }
 
-    public void setCars(HashSet<Car> cars) throws CarAlreadyRunningException {
-        if (cars != null) {
-            for (Car c : cars) {
+    public void setAllCars(HashSet<Car> allCars) throws CarAlreadyRunningException {
+        if (allCars != null) {
+            for (Car c : allCars) {
                 setCar(c);
             }
         }
     }
 
-    public void startCar() {
-        for (Car c : carsToSet) {
-            cars.add(c);
-            carsToSet.remove(c);
-        }
-    }
-
-    private TreeSet<Car> getCars() {
-        return cars;
+    private HashSet<Car> getAllCars() {
+        return allCars;
     }
 
     public int getStreetLength() {
@@ -128,7 +128,7 @@ public class Street implements Runnable {
     }
 
     public void remCar(Car car) {
-        getCars().remove(car);
+        getAllCars().remove(car);
     }
 
     public void turnOff() {
@@ -149,7 +149,7 @@ public class Street implements Runnable {
 
     public Car findCarByPosition(int position) {
         Car toRet = null;
-        for (Car c : getCars()) {
+        for (Car c : getAllCars()) {
             if (c.getPosition() == position) {
                 toRet = c;
             }
@@ -172,38 +172,38 @@ public class Street implements Runnable {
 
         int k = 0;
         for (int i = 0; i < streetLength; i++) {
-            asse.append(i).append("\t");
+            asse.append(i).append("\t\t\t");
             if (k < lampioni.length && i == lampioni[k].getPosition()) {
                 toRetStreetLights.append(lampioni[k].getController().getLamp().getIntensity());
                 k++;
             }
-            toRetStreetLights.append("\t");
+            toRetStreetLights.append("\t\t\t");
         }
 
-        Car[] macchine = new Car[cars.size()];
+        Car[] macchine = new Car[allCars.size()];
         k = 0;
-        for (Car c : cars) {
+        for (Car c : allCars) {
             macchine[k] = c;
             k++;
         }
 
-        String[] toRetCars = new String[cars.size()];
-        for (int i = 0; i < cars.size(); i++) {
+        String[] toRetCars = new String[allCars.size()];
+        for (int i = 0; i < allCars.size(); i++) {
             toRetCars[i] = "";
             for (int z = 0; z < macchine[i].getPosition(); z++) {
-                toRetCars[i] += "\t";
+                toRetCars[i] += "\t\t\t";
             }
             toRetCars[i] += macchine[i].getId();
         }
 
         StringBuilder corsie = new StringBuilder();
-        for (int i = 0; i < getCars().size(); i++) {
+        for (int i = 0; i < getAllCars().size(); i++) {
             corsie.append(toRetCars[i]).append("\n");
         }
 
         StringBuilder corsia = new StringBuilder();
         for (int i = 0; i < getStreetLength(); i++) {
-            corsia.append(ACTUAL_STREET[i]).append("\t");
+            corsia.append(ACTUAL_STREET[i]).append("\t\t\t");
         }
 
 
@@ -234,29 +234,74 @@ public class Street implements Runnable {
 
     @Override
     public void run() {
-        int tot = cars.size();
+        int tot = allCars.size();
         for (Sensor s : getSensors()) {
             s.detect();
         }
-        //System.out.println(this);
+
+        // Divido le auto tra quelle in strada e quelle fuori dalla strada
+        Iterator<Car> allCarsIt = allCars.iterator();
+        while (allCarsIt.hasNext()) {
+            Car c = allCarsIt.next();
+            if (c.getRunning()) {
+                c.run();
+            } else {
+                allCarsIt.remove();
+            }
+            if (c.getPosition() > -1) {
+                inCars.add(c);
+            } else {
+                outCars.add(c);
+            }
+
+            allCarsIt.remove();
+        }
+
+        System.out.println(this);
         do {
             totalConsumption += getTotalWatts();   // Consumo in Ws
-            //int cont = 0;
+            int cont = 0;
             try {
-                for (Car c : cars) {
-                    if (c.getPosition() > 0) {
+                /*Iterator<Car> allCarsIt = allCars.iterator();
+                while (allCarsIt.hasNext()) {
+                    Car c = allCarsIt.next();
+                    if (c.getPosition() > -1) {
+                        carsOnStreet.add(c);
+                        allCarsIt.remove();
+
                         cont++;
                     }
-                }
+                }*/
+                /*for (Car c : allCars) {
+                    //System.out.println(cont + ":" + c);
+                    if (c.getPosition() > 0) {
+                        carsOnStreet.add(c);
+                        cont++;
+                    }
+                }*/
                 Arrays.fill(ACTUAL_STREET, -1);
-                //System.out.println("Auto in carreggiata: " + cont);
-                Iterator<Car> it = cars.iterator();
-                while (it.hasNext()) {
-                    Car c = it.next();
+//                Iterator<Car> it = (carsOnStreet.size() > capacity) ? carsOnStreet.iterator() : allCars.iterator();
+                Iterator<Car> inCarsIt = inCars.iterator();
+                while (inCarsIt.hasNext()) {
+                    Car c = inCarsIt.next();
                     if (c.getRunning()) {
                         c.run();
                     } else {
-                        it.remove();
+                        inCarsIt.remove();
+                    }
+                }
+                if (inCars.size() < capacity) {
+                    //System.out.println("ENTRATO");
+                    Iterator<Car> outCarsIt = outCars.iterator();
+                    while (outCarsIt.hasNext()) {
+                        Car c = outCarsIt.next();
+                        if (c.getRunning()) {
+                            c.run();
+                            if (c.getPosition() > -1) {
+                                inCars.add(c);
+                                outCarsIt.remove();
+                            }
+                        }
                     }
                 }
                 for (Sensor s : getSensors()) {
@@ -268,10 +313,12 @@ public class Street implements Runnable {
                 e.printStackTrace();
             }
             if (secondi % 100 == 0) {
-                System.out.println("Completamento simulazione " + (100*(tot-cars.size()))/tot + "% dopo " + secondi + " secondi");
+                System.out.println("Completamento simulazione " + (100*(tot- allCars.size()))/tot + "% dopo " + secondi + " secondi");
+                System.out.println("Auto in carreggiata: " + inCars.size());
+                System.out.println(this);
             }
             //System.out.println("Secondi " + secondi);
-        } while (!getCars().isEmpty() && secondi < 3600);
+        } while ((!inCars.isEmpty() || !outCars.isEmpty()) && secondi < 50400);
         System.out.println("Completamento simulazione 100%");
         totalConsumption = totalConsumption/3600;
         System.out.println("Tempo impiegato " + secondi + " secondi");
@@ -279,7 +326,7 @@ public class Street implements Runnable {
     }
 
     public void foo() {
-        int tot = cars.size();
+        int tot = allCars.size();
         for (Sensor s : getSensors()) {
             //System.out.println("Pos " + s.getPosition());
             s.detect();
@@ -293,14 +340,14 @@ public class Street implements Runnable {
                 /*for (Sensor s : getSensors()) {
                     s.detect();
                 }*/
-                for (Car c : cars) {
+                for (Car c : allCars) {
                     if (c.getPosition() > 0) {
                         cont++;
                     }
                 }
                 Arrays.fill(ACTUAL_STREET, -1);
                 //System.out.println("Auto in carreggiata: " + cont);
-                Iterator<Car> it = cars.iterator();
+                Iterator<Car> it = allCars.iterator();
                 while (it.hasNext()) {
                     Car c = it.next();
                     if (c.getRunning()) {
@@ -319,9 +366,9 @@ public class Street implements Runnable {
                 e.printStackTrace();
             }
             if (secondi % 100 == 0) {
-                System.out.println("Completamento simulazione " + (100*(tot-cars.size()))/tot + "%");
+                System.out.println("Completamento simulazione " + (100*(tot- allCars.size()))/tot + "%");
             }
-        } while (!getCars().isEmpty());
+        } while (!getAllCars().isEmpty());
         System.out.println("Completamento simulazione 100%");
         totalConsumption = totalConsumption/3600;
         System.out.println("Tempo impiegato " + secondi + " secondi");
