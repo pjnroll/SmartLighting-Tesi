@@ -234,26 +234,22 @@ public class Street implements Runnable {
 
     @Override
     public void run() {
+        int tot = cars.size();
         for (Sensor s : getSensors()) {
-            System.out.println("Pos " + s.getPosition());
             s.detect();
         }
-        System.out.println(this);
+        //System.out.println(this);
         do {
             totalConsumption += getTotalWatts();   // Consumo in Ws
+            //int cont = 0;
             try {
-                // NON DECOMMENTARE
-                /*for (Sensor s : getSensors()) {
-                    s.detect();
-                }*/
-                int cont = 0;
                 for (Car c : cars) {
                     if (c.getPosition() > 0) {
                         cont++;
                     }
                 }
                 Arrays.fill(ACTUAL_STREET, -1);
-                System.out.println("Auto in carreggiata: " + cont);
+                //System.out.println("Auto in carreggiata: " + cont);
                 Iterator<Car> it = cars.iterator();
                 while (it.hasNext()) {
                     Car c = it.next();
@@ -266,13 +262,67 @@ public class Street implements Runnable {
                 for (Sensor s : getSensors()) {
                     s.detect();
                 }
-                Thread.sleep(1);
                 secondi++;
-                System.out.println(this);
-            } catch (InterruptedException | ConcurrentModificationException e) {
+                //System.out.println(this);
+            } catch (ConcurrentModificationException e) {
                 e.printStackTrace();
             }
+            if (secondi % 100 == 0) {
+                System.out.println("Completamento simulazione " + (100*(tot-cars.size()))/tot + "% dopo " + secondi + " secondi");
+            }
+            //System.out.println("Secondi " + secondi);
+        } while (!getCars().isEmpty() && secondi < 3600);
+        System.out.println("Completamento simulazione 100%");
+        totalConsumption = totalConsumption/3600;
+        System.out.println("Tempo impiegato " + secondi + " secondi");
+        System.out.println("Consumo totale " + totalConsumption + "Wh\nConsumo totale " + totalConsumption/1000 + "kWh\nConsumo totale " + totalConsumption*0.15/1000 + "Eur");
+    }
+
+    public void foo() {
+        int tot = cars.size();
+        for (Sensor s : getSensors()) {
+            //System.out.println("Pos " + s.getPosition());
+            s.detect();
+        }
+        //System.out.println(this);
+        do {
+            totalConsumption += getTotalWatts();   // Consumo in Ws
+            int cont = 0;
+            try {
+                // NON DECOMMENTARE
+                /*for (Sensor s : getSensors()) {
+                    s.detect();
+                }*/
+                for (Car c : cars) {
+                    if (c.getPosition() > 0) {
+                        cont++;
+                    }
+                }
+                Arrays.fill(ACTUAL_STREET, -1);
+                //System.out.println("Auto in carreggiata: " + cont);
+                Iterator<Car> it = cars.iterator();
+                while (it.hasNext()) {
+                    Car c = it.next();
+                    if (c.getRunning()) {
+                        c.run();
+                    } else {
+                        it.remove();
+                    }
+                }
+                for (Sensor s : getSensors()) {
+                    s.detect();
+                }
+                //Thread.sleep(1);
+                secondi++;
+                //System.out.println(this);
+            } catch (/*InterruptedException |*/ ConcurrentModificationException e) {
+                e.printStackTrace();
+            }
+            if (secondi % 100 == 0) {
+                System.out.println("Completamento simulazione " + (100*(tot-cars.size()))/tot + "%");
+            }
         } while (!getCars().isEmpty());
+        System.out.println("Completamento simulazione 100%");
         totalConsumption = totalConsumption/3600;
         System.out.println("Tempo impiegato " + secondi + " secondi");
         System.out.println("Consumo totale " + totalConsumption + "Wh\nConsumo totale " + totalConsumption/1000 + "kWh\nConsumo totale " + totalConsumption*0.15/1000 + "Eur");

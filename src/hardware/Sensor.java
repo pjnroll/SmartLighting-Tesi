@@ -11,6 +11,9 @@ public class Sensor extends Component implements Comparable<Sensor> {
     private int minThreshold;
     private int maxThreshold;
 
+    private int range;
+    private int dist;
+
     // TODO Gestire altri costruttori e le eccezioni
 
     /**
@@ -30,6 +33,8 @@ public class Sensor extends Component implements Comparable<Sensor> {
         setName(name);
         setMinThreshold(minThreshold);
         setMaxThreshold(maxThreshold);
+
+        range = maxThreshold-minThreshold;
 
         setAttached(false);
         setController(null);
@@ -74,53 +79,74 @@ public class Sensor extends Component implements Comparable<Sensor> {
     /********************/
 
     public void detect() {
-        int myPos = getPosition();
-        int range = getMaxThreshold() - getMinThreshold();
-
         boolean detected = false;
+        int intensity = super.controller.getLamp().getIntensity();
 
-        int intensity = getController().getLamp().getIntensity();
+        if (getSensor_type().equals(SENSOR_TYPE.LDR)) {
+            if (Street.ACTUAL_STREET[getPosition()] != -1) {
+                detected = true;
+            }
+        } else if (getSensor_type().equals(SENSOR_TYPE.PIR)) {
+            int myPos = super.position;
 
+            for (int i = myPos - (range / 2); i < myPos + (range / 2) && !detected; i++) {
+                if (i > -1 && i < Street.ACTUAL_STREET.length && Street.ACTUAL_STREET[i] != -1) {
+                    detected = true;
+                }
+            }
+        }
+        /*
         if (getSensor_type().equals(SENSOR_TYPE.PIR)) {
+            int myPos = super.position;
+
             for (int i = myPos - (range / 2); i < myPos + (range / 2) && !detected; i++) {
                 if (i > -1 && i < Street.ACTUAL_STREET.length && Street.ACTUAL_STREET[i] != -1) {
                     detected = true;
                 }
             }
         } else if (getSensor_type().equals(SENSOR_TYPE.LDR)) {
-            if (Street.ACTUAL_STREET[myPos] != -1) {
+            if (Street.ACTUAL_STREET[getPosition()] != -1) {
                 detected = true;
             }
-        }
+        }*/
 
         if (detected) {
             // Accendo i lampioni per garantire una visibilità per almeno 5 secondi
             getController().dimLamp(100);
-            Street myStreet = getController().getStreetlight().getStreet();
+            Street myStreet = super.controller.streetlight.getStreet();
             Car c;
             int speed;
             int spaceToTurnOn;
             boolean found = false;
-            for (int i = myPos; i > 0 && !found; i--) {
-                c = myStreet.findCarByPosition(i);
-                if (c != null) {
-                    found = true;
-                    speed = c.getSpeed();
-                    for (Streetlight s : myStreet.getStreetlights()) {
-                        if (s.getPosition() == myPos) {
-                            int dist = (myStreet.getStreetLength()-1)/(myStreet.getStreetlights().size()-1);
-                            int stopTime = (int) ((speed*speed)/15.68); // spazio frenata = (v*v)/(2*coeff*a)   [coeff = 0.05, 0.4, 0.8; a = g = 9.8m/s^2)
-                            spaceToTurnOn = (int) ((speed/3.6) + stopTime);
-                            int lampToTurnOn = spaceToTurnOn/dist;
-                            int index = myPos;
-                            while (index + dist <= myStreet.getStreetLength() && lampToTurnOn > 0) {
-                                index += dist;
-                                myStreet.findStreetlightByPosition(index).getController().dimLamp(100);
-                                lampToTurnOn--;
-                            }
+            for (int i = super.position; i > super.position-Car.HEADLIGHTS_LENGTH && !found; i--) {
+                if (i != -1 && i != -2) {
+                    c = myStreet.findCarByPosition(i);
+                    if (c != null) {    // sicurezza
+                        found = true;
+                        speed = c.getSpeed();
+                        dist = (myStreet.getStreetLength()-1)/(myStreet.getStreetlights().size()-1);
+                        int stopTime = (int) ((speed*speed)/15.68); // spazio frenata = (v*v)/(2*coeff*a)   [coeff = 0.05, 0.4, 0.8; a = g = 9.8m/s^2)
+                        spaceToTurnOn = (int) ((speed/3.6) + stopTime);
+                        int lampToTurnOn = spaceToTurnOn/dist;
+
+                        Streetlight s = myStreet.findStreetlightByPosition(super.position);
+                        int index = super.position;
+                        while (index + dist <= myStreet.getStreetLength() && lampToTurnOn > 0) {
+                            index += dist;
+                            myStreet.findStreetlightByPosition(index).getController().dimLamp(100);
+                            lampToTurnOn--;
                         }
                     }
                 }
+
+                /*c = myStreet.findCarByPosition(i);
+                if (c != null) {
+                    for (Streetlight s : myStreet.getStreetlights()) {
+                        if (s.getPosition() == super.position) {
+
+                        }
+                    }
+                }*/
             }
         } else if (intensity > 20) {
             intensity -= 20;

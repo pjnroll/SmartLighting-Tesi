@@ -11,10 +11,10 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class MainClass {
-    private final static int n_cars = 10;
+    private final static int n_cars = 10000;
 
     public static void main(String args[]) {
-        int n_streetlights = 29;
+        int n_streetlights = 458;
         int distance = 35;
         int streetLength = ((n_streetlights-1)*distance)+1;
         /**

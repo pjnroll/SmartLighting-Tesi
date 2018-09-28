@@ -15,7 +15,7 @@ public class Controller {
     private Battery battery;
 
     private boolean attached;
-    private Streetlight streetlight;
+    Streetlight streetlight;
 
     private int position;
 

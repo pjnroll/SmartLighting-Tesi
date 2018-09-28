@@ -2,9 +2,9 @@ package hardware;
 
 public class Component {
     private boolean attached;
-    private Controller controller;
+    Controller controller;
 
-    private int position;
+    int position;
 
     public boolean getAttached() {
         return attached;

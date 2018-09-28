@@ -1,7 +1,7 @@
 package hardware;
 
 public class Car implements Runnable, Comparable<Car> {
-    private static final int HEADLIGHTS_LENGTH = 15;
+    static final int HEADLIGHTS_LENGTH = 15;
     private static int count_id = 0;
     private int id;
 
@@ -64,6 +64,10 @@ public class Car implements Runnable, Comparable<Car> {
 
     public boolean getRunning() {
         return running;
+    }
+
+    public boolean isOnStreet() {
+        return position > -1;
     }
 
     @Override
