@@ -14,7 +14,7 @@ public class MainClass {
     private final static int n_cars = 250000;
 
     public static void main(String args[]) {
-        int n_streetlights = 458;
+        int n_streetlights = 577;
         int distance = 35;
         int streetLength = ((n_streetlights-1)*distance)+1;
         /**
@@ -94,7 +94,7 @@ public class MainClass {
         HashSet<Car> cars = new HashSet<>();
         Car[] macchine = new Car[n_cars];
         for (int i = 0 ; i < n_cars; i++) {
-            macchine[i] = new Car((random.nextInt(40) + 50), (int) (random.nextInt(streetLength)-streetLength*1.5));
+            macchine[i] = new Car((random.nextInt(50) + 60), (int) (random.nextInt(streetLength)-streetLength*2));
             cars.add(macchine[i]);
         }
 

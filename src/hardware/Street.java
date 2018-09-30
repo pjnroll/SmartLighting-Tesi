@@ -48,7 +48,7 @@ public class Street implements Runnable {
 
         totalConsumption = 0.0;
 
-        capacity = streetLenght/2;
+        capacity = (streetLenght/2);
         secondi = 0;
     }
 
@@ -257,7 +257,7 @@ public class Street implements Runnable {
             allCarsIt.remove();
         }
 
-        System.out.println(this);
+        //System.out.println(this);
         do {
             totalConsumption += getTotalWatts();   // Consumo in Ws
             int cont = 0;
