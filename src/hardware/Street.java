@@ -48,7 +48,7 @@ public class Street implements Runnable {
 
         totalConsumption = 0.0;
 
-        capacity = streetLenght*3/4;
+        capacity = streetLenght/2;
         secondi = 0;
     }
 

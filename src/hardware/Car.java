@@ -1,5 +1,7 @@
 package hardware;
 
+import java.util.Objects;
+
 public class Car implements Runnable, Comparable<Car> {
     static final int HEADLIGHTS_LENGTH = 15;
     private static int count_id = 0;
@@ -89,8 +91,21 @@ public class Car implements Runnable, Comparable<Car> {
         }
     }
 
-    public String toString() {
-        return "(Macchina: " + getId() + " " + "pos " + position + "   " + speed + "km/h";
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return id == car.id &&
+                speed == car.speed &&
+                position == car.position &&
+                Objects.equals(street, car.street);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, speed, position, street);
     }
 
     @Override
@@ -99,4 +114,9 @@ public class Car implements Runnable, Comparable<Car> {
         int toRetSpeed = o.speed - this.speed;
         return (toRetPos == 0) ? ((toRetSpeed == 0) ? -1 : toRetSpeed) : toRetPos;
     }
+
+    public String toString() {
+        return "(Macchina: " + getId() + " " + "pos " + position + "   " + speed + "km/h";
+    }
+
 }
