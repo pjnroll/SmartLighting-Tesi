@@ -25,6 +25,7 @@ public class Street implements Runnable {
     private double totalConsumption;
 
     private int capacity;
+    private int density;
     private int secondi;
 
     public Street(String name, LinkedList<Streetlight> streetlights, int streetLenght) {
@@ -48,7 +49,7 @@ public class Street implements Runnable {
 
         totalConsumption = 0.0;
 
-        capacity = (streetLenght/2);
+        capacity = (streetLenght/4)*3;
         secondi = 0;
     }
 
@@ -234,6 +235,96 @@ public class Street implements Runnable {
 
     @Override
     public void run() {
+        boolean empty = true;
+        int cont = 0;
+        density = (int) Math.ceil(allCars.size()/39600);
+        int densityMax = density;
+        int densityMin = density--;
+        int tot = allCars.size();
+        for (Sensor s : getSensors()) {
+            s.detect();
+        }
+
+        // Divido le auto tra quelle in strada e quelle fuori dalla strada
+        Iterator<Car> allCarsIt = allCars.iterator();
+        while (allCarsIt.hasNext()) {
+            Car c = allCarsIt.next();
+            if (c.getRunning()) {
+                c.run();
+            } else {
+                allCarsIt.remove();
+            }
+            if (c.getPosition() > -1) {
+                inCars.add(c);
+                cont++;
+                empty = false;
+            } else {
+                outCars.add(c);
+            }
+
+            allCarsIt.remove();
+        }
+
+        //System.out.println(this);
+        do {
+            if (secondi > 21600 && secondi < 39600) {
+                density = densityMin;
+            } else {
+                density = densityMax;
+            }
+            totalConsumption += getTotalWatts();   // Consumo in Ws
+
+            try {
+                Arrays.fill(ACTUAL_STREET, -1);
+                Iterator<Car> inCarsIt = inCars.iterator();
+                while (inCarsIt.hasNext()) {
+                    Car c = inCarsIt.next();
+                    if (c.getRunning()) {
+                        c.run();
+                    } else {
+                        inCarsIt.remove();
+                    }
+                }
+                if (inCars.size() < capacity) {
+                    Iterator<Car> outCarsIt = outCars.iterator();
+                    int go = 0;
+                    while (outCarsIt.hasNext() && go < density) {
+                        Car c = outCarsIt.next();
+                        if (c.getRunning()) {
+                            c.run();
+                            if (c.getPosition() > -1) {
+                                go++;
+                                inCars.add(c);
+                                cont++;
+                                empty = false;
+                                outCarsIt.remove();
+                            }
+                        }
+                    }
+                }
+                if (!empty) {
+                    for (Sensor s : getSensors()) {
+                        s.detect();
+                    }
+                }
+                secondi++;
+            } catch (ConcurrentModificationException e) {
+                e.printStackTrace();
+            }
+            if (secondi % 1000 == 0) {
+                System.out.println("Completamento simulazione " + (100*cont/tot) + "% dopo " + secondi + " secondi");
+                System.out.println("Auto in carreggiata: " + inCars.size());
+                System.out.println(this);
+            }
+            //System.out.println("Secondi " + secondi);
+        } while ((!inCars.isEmpty() || !outCars.isEmpty()) && secondi < 50400);
+        System.out.println("Completamento simulazione 100%\nAuto transitate " + cont);
+        totalConsumption = totalConsumption/3600;
+        System.out.println("Tempo impiegato " + secondi + " secondi");
+        System.out.println("Consumo totale " + totalConsumption + "Wh\nConsumo totale " + totalConsumption/1000 + "kWh\nConsumo totale " + totalConsumption*0.15/1000 + "Eur");
+    }
+
+    public void runrun() {
         int tot = allCars.size();
         for (Sensor s : getSensors()) {
             s.detect();

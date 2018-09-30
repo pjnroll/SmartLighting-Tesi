@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class MainClass {
-    private final static int n_cars = 250000;
+    private final static int n_cars = 60000;
 
     public static void main(String args[]) {
         int n_streetlights = 577;
