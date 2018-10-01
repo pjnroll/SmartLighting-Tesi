@@ -237,7 +237,7 @@ public class Street implements Runnable {
     public void run() {
         boolean empty = true;
         int cont = 0;
-        density = (int) Math.ceil(allCars.size()/39600);
+        density = (int) Math.ceil(allCars.size()/39600);    // Auto al secondo; 39.600 = 3.600s * 11h, durata funzionamento del sistema
         int densityMax = density;
         int densityMin = density--;
         int tot = allCars.size();
@@ -265,7 +265,6 @@ public class Street implements Runnable {
             allCarsIt.remove();
         }
 
-        //System.out.println(this);
         do {
             if (secondi > 21600 && secondi < 39600) {
                 density = densityMin;

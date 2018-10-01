@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="14394984-4fae-44d3-abc8-cc6cfde58b1c" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/src/hardware/Sensor.java" afterPath="$PROJECT_DIR$/src/hardware/Sensor.java" />
       <change beforePath="$PROJECT_DIR$/src/hardware/Street.java" afterPath="$PROJECT_DIR$/src/hardware/Street.java" />
-      <change beforePath="$PROJECT_DIR$/src/hardware/Streetlight.java" afterPath="$PROJECT_DIR$/src/hardware/Streetlight.java" />
-      <change beforePath="$PROJECT_DIR$/src/test/MainClass.java" afterPath="$PROJECT_DIR$/src/test/MainClass.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,8 +44,8 @@
       <file leaf-file-name="Street.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/hardware/Street.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="455">
-              <caret line="320" column="84" lean-forward="false" selection-start-line="320" selection-start-column="84" selection-end-line="320" selection-end-column="84" />
+            <state relative-caret-position="353">
+              <caret line="239" column="54" lean-forward="false" selection-start-line="239" selection-start-column="49" selection-end-line="239" selection-end-column="54" />
               <folding>
                 <element signature="e#1241#1242#0" expanded="true" />
                 <element signature="e#1273#1274#0" expanded="true" />
@@ -111,11 +110,11 @@
       <file leaf-file-name="Sensor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/hardware/Sensor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1717">
-              <caret line="138" column="21" lean-forward="true" selection-start-line="138" selection-start-column="21" selection-end-line="138" selection-end-column="21" />
+            <state relative-caret-position="421">
+              <caret line="116" column="37" lean-forward="false" selection-start-line="116" selection-start-column="37" selection-end-line="116" selection-end-column="37" />
               <folding>
-                <element signature="e#1598#1599#0" expanded="true" />
-                <element signature="e#1623#1624#0" expanded="true" />
+                <element signature="e#1689#1690#0" expanded="true" />
+                <element signature="e#1714#1715#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -239,10 +238,10 @@
         <option value="$PROJECT_DIR$/src/test/PierOS.java" />
         <option value="$PROJECT_DIR$/src/hardware/Component.java" />
         <option value="$PROJECT_DIR$/src/hardware/Controller.java" />
-        <option value="$PROJECT_DIR$/src/hardware/Sensor.java" />
         <option value="$PROJECT_DIR$/src/hardware/Car.java" />
         <option value="$PROJECT_DIR$/src/hardware/Streetlight.java" />
         <option value="$PROJECT_DIR$/src/test/MainClass.java" />
+        <option value="$PROJECT_DIR$/src/hardware/Sensor.java" />
         <option value="$PROJECT_DIR$/src/hardware/Street.java" />
       </list>
     </option>
@@ -738,17 +737,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hardware/Sensor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1717">
-          <caret line="138" column="21" lean-forward="true" selection-start-line="138" selection-start-column="21" selection-end-line="138" selection-end-column="21" />
-          <folding>
-            <element signature="e#1598#1599#0" expanded="true" />
-            <element signature="e#1623#1624#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/util/HashSet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3">
@@ -792,10 +780,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/hardware/Sensor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="421">
+          <caret line="116" column="37" lean-forward="false" selection-start-line="116" selection-start-column="37" selection-end-line="116" selection-end-column="37" />
+          <folding>
+            <element signature="e#1689#1690#0" expanded="true" />
+            <element signature="e#1714#1715#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/hardware/Street.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="320" column="84" lean-forward="false" selection-start-line="320" selection-start-column="84" selection-end-line="320" selection-end-column="84" />
+        <state relative-caret-position="353">
+          <caret line="239" column="54" lean-forward="false" selection-start-line="239" selection-start-column="49" selection-end-line="239" selection-end-column="54" />
           <folding>
             <element signature="e#1241#1242#0" expanded="true" />
             <element signature="e#1273#1274#0" expanded="true" />
