@@ -107,15 +107,17 @@ public class Sensor extends Component implements Comparable<Sensor> {
             int speed;
             int spaceToTurnOn;
             boolean found = false;
-            for (int i = super.position; i > super.position-Car.HEADLIGHTS_LENGTH && !found; i--) {
-                if (i != -1 && i != -2) {
+            /*for (int i = super.position; i > super.position-Car.HEADLIGHTS_LENGTH && !found; i--) {
+                if (Street.ACTUAL_STREET[i] != -1 && Street.ACTUAL_STREET[i] != -2) {
                     c = myStreet.findCarByPosition(i);
                     if (c != null) {    // guardia
+                        //System.out.println("Trovato " + c + " in posizione " + i);
                         found = true;
                         speed = c.getSpeed();
                         dist = (Street.ACTUAL_STREET.length-1)/(myStreet.getStreetlights().size()-1);    // distanza tra i lampioni
                         int stopSpace = (int) ((speed*speed)/(2*coeff*decel)); // spazio frenata = (v*v)/(2*coeff*a)   [coeff = 0.05, 0.4, 0.8; a = g = 9.8m/s^2)
-                        spaceToTurnOn = (int) ((speed/3.6) + stopSpace);
+                        int securitySpace = speed*5;    // velocità * 5 secondi
+                        spaceToTurnOn = (int) ((speed/3.6) + stopSpace + securitySpace);
                         int lampToTurnOn = spaceToTurnOn/dist;
 
                         int index = super.position;
@@ -126,7 +128,7 @@ public class Sensor extends Component implements Comparable<Sensor> {
                         }
                     }
                 }
-            }
+            }*/
         } else if (intensity > 20) {
             intensity -= 20;
             getController().dimLamp(intensity);
