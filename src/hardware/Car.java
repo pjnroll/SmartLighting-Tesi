@@ -2,8 +2,8 @@ package hardware;
 
 import java.util.Objects;
 
-public class Car implements Runnable, Comparable<Car> {
-    public final static double decel = 9.8;
+public class Car implements Comparable<Car> {
+    final static double decel = 9.8;
     static final int HEADLIGHTS_LENGTH = 15;
     private static int count_id = 0;
     private int id;
@@ -69,26 +69,18 @@ public class Car implements Runnable, Comparable<Car> {
         return running;
     }
 
-    public boolean isOnStreet() {
-        return position > -1;
-    }
-
-    @Override
     public void run() {
         position += space;
         if (position >= getStreet().getStreetLength()) {
             setRunning(false);
         } else if (position > 0 && position < getStreet().getStreetLength()) {
-            move();
-        }
-    }
-
-    private void move() {
-        Street.ACTUAL_STREET[position] = id;
-        int d = position+1;
-        while (d < position + HEADLIGHTS_LENGTH && d < getStreet().getStreetLength()) {
-            Street.ACTUAL_STREET[d] = -2;
-            d++;
+            // move
+            Street.ACTUAL_STREET[position] = id;
+            int d = position+1;
+            while (d < position + HEADLIGHTS_LENGTH && d < getStreet().getStreetLength()) {
+                Street.ACTUAL_STREET[d] = -2;
+                d++;
+            }
         }
     }
 
