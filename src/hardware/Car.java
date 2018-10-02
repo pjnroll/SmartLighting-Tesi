@@ -3,6 +3,7 @@ package hardware;
 import java.util.Objects;
 
 public class Car implements Runnable, Comparable<Car> {
+    public final static double decel = 9.8;
     static final int HEADLIGHTS_LENGTH = 15;
     private static int count_id = 0;
     private int id;

@@ -5,6 +5,7 @@ import exceptions.CarAlreadyRunningException;
 import java.util.*;
 
 public class Street implements Runnable {
+    public final static double coeff = 0.8;
     public final static int OPERATIVE_HOURS = 11;
 
     private static int count_id = 0;
@@ -205,13 +206,6 @@ public class Street implements Runnable {
 
     private void setStreetLength(int streetLength) {
         this.streetLength = streetLength;
-    }
-
-    public double getConsumption() {
-        double consumption = 0.0;
-
-
-        return consumption;
     }
 
     private double getTotalWatts() {
