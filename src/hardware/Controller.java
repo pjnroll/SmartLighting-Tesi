@@ -178,16 +178,6 @@ public class Controller {
         }
     }
 
-    public void remComponents() {
-        for (Component c : components) {
-            try {
-                remComponent(c);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public void dimLamp(int value) {
         getLamp().setIntensity(value);
     }

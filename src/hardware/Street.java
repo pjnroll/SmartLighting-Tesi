@@ -2,6 +2,7 @@ package hardware;
 
 import exceptions.CarAlreadyRunningException;
 
+import java.io.*;
 import java.util.*;
 
 public class Street implements Runnable {
@@ -221,91 +222,101 @@ public class Street implements Runnable {
 
     @Override
     public void run() {
-        boolean empty = true;
-        int cont = 0;
-        density = (int) Math.ceil(allCars.size()/(3600*OPERATIVE_HOURS));    // Auto al secondo; 39.600 = 3.600s * 11h, durata funzionamento del sistema
-        int densityMax = density;
-        int densityMin = density--;
-        int tot = allCars.size();
-        for (Sensor s : getSensors()) {
-            s.detect();
-        }
+        try {
+            FileWriter fw = new FileWriter("C:\\Users\\Pj94\\Desktop\\simulazione.txt");
+            BufferedWriter bufferedWriter = new BufferedWriter(fw);
 
-        // Divido le auto tra quelle in strada e quelle fuori dalla strada
-        Iterator<Car> allCarsIt = allCars.iterator();
-        while (allCarsIt.hasNext()) {
-            Car c = allCarsIt.next();
-            if (c.getRunning()) {
-                c.run();
-            } else {
+            boolean empty = true;
+            int cont = 0;
+            density = (int) Math.ceil(allCars.size()/(3600*OPERATIVE_HOURS));    // Auto al secondo; 39.600 = 3.600s * 11h, durata funzionamento del sistema
+            int densityMax = density;
+            int densityMin = density--;
+            int tot = allCars.size();
+            for (Sensor s : getSensors()) {
+                s.detect();
+            }
+
+            // Divido le auto tra quelle in strada e quelle fuori dalla strada
+            Iterator<Car> allCarsIt = allCars.iterator();
+            while (allCarsIt.hasNext()) {
+                Car c = allCarsIt.next();
+                if (c.getRunning()) {
+                    c.run();
+                } else {
+                    allCarsIt.remove();
+                }
+                if (c.getPosition() > -1) {
+                    inCars.add(c);
+                    cont++;
+                    empty = false;
+                } else {
+                    outCars.add(c);
+                }
+
                 allCarsIt.remove();
             }
-            if (c.getPosition() > -1) {
-                inCars.add(c);
-                cont++;
-                empty = false;
-            } else {
-                outCars.add(c);
-            }
 
-            allCarsIt.remove();
-        }
+            do {
+                totalConsumption += getTotalWatts();   // Consumo in Ws
 
-        do {
-            if (secondi > 21600 && secondi < 36000) {
-                density = densityMin;
-            } else {
-                density = densityMax;
-            }
-            totalConsumption += getTotalWatts();   // Consumo in Ws
-
-            try {
-                Arrays.fill(ACTUAL_STREET, -1);
-                Iterator<Car> inCarsIt = inCars.iterator();
-                while (inCarsIt.hasNext()) {
-                    Car c = inCarsIt.next();
-                    if (c.getRunning()) {
-                        c.run();
-                    } else {
-                        inCarsIt.remove();
-                    }
+                if (secondi > 21600 && secondi < 36000) {
+                    density = densityMin;
+                } else {
+                    density = densityMax;
                 }
-                if (inCars.size() < capacity) {
-                    Iterator<Car> outCarsIt = outCars.iterator();
-                    int go = 0;
-                    while (outCarsIt.hasNext() && go < density) {
-                        Car c = outCarsIt.next();
+
+                try {
+                    Arrays.fill(ACTUAL_STREET, -1);
+                    Iterator<Car> inCarsIt = inCars.iterator();
+                    while (inCarsIt.hasNext()) {
+                        Car c = inCarsIt.next();
                         if (c.getRunning()) {
                             c.run();
-                            if (c.getPosition() > -1) {
-                                go++;
-                                inCars.add(c);
-                                cont++;
-                                empty = false;
-                                outCarsIt.remove();
+                        } else {
+                            inCarsIt.remove();
+                        }
+                    }
+                    if (inCars.size() < capacity) {
+                        Iterator<Car> outCarsIt = outCars.iterator();
+                        int go = 0;
+                        while (outCarsIt.hasNext() && go < density) {
+                            Car c = outCarsIt.next();
+                            if (c.getRunning()) {
+                                c.run();
+                                if (c.getPosition() > -1) {
+                                    go++;
+                                    inCars.add(c);
+                                    cont++;
+                                    empty = false;
+                                    outCarsIt.remove();
+                                }
                             }
                         }
                     }
-                }
-                if (!empty) {
-                    for (Sensor s : getSensors()) {
-                        s.detect();
+                    if (!empty) {
+                        for (Sensor s : getSensors()) {
+                            s.detect();
+                        }
                     }
+                    secondi++;
+                } catch (ConcurrentModificationException e) {
+                    e.printStackTrace();
                 }
-                secondi++;
-            } catch (ConcurrentModificationException e) {
-                e.printStackTrace();
-            }
-            if (secondi % 1000 == 0) {
-                System.out.println("Completamento simulazione " + (100*cont/tot) + "% dopo " + secondi + " secondi");
-                System.out.println("Auto in carreggiata: " + inCars.size());
-                System.out.println(this);
-            }
-            //System.out.println("Secondi " + secondi);
-        } while ((!inCars.isEmpty() || !outCars.isEmpty()) && secondi < 50400);
-        System.out.println("Completamento simulazione 100%\nAuto transitate " + cont);
-        totalConsumption = totalConsumption/3600;
-        System.out.println("Tempo impiegato " + secondi + " secondi");
-        System.out.println("Consumo totale " + totalConsumption + "Wh\nConsumo totale " + totalConsumption/1000 + "kWh\nConsumo totale " + totalConsumption*0.15/1000 + "Eur");
+                if (secondi % 1000 == 0) {
+                    System.out.println("Completamento simulazione " + (100*cont/tot) + "% dopo " + secondi + " secondi");
+                    System.out.println("Auto in carreggiata: " + inCars.size());
+                    System.out.println(this);
+                    bufferedWriter.write(this.toString());
+                }
+                //System.out.println("Secondi " + secondi);
+            } while ((!inCars.isEmpty() || !outCars.isEmpty()) && secondi < 50400);
+            System.out.println("Completamento simulazione 100%\nAuto transitate " + cont);
+            totalConsumption /= 3600;
+            System.out.println("Tempo impiegato " + secondi + " secondi");
+            System.out.println("Consumo totale " + totalConsumption + "Wh\nConsumo totale " + totalConsumption/1000 + "kWh\nConsumo totale " + totalConsumption*0.15/1000 + "Eur");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

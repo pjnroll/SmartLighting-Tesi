@@ -116,8 +116,8 @@ public class Sensor extends Component implements Comparable<Sensor> {
                         speed = (int) (c.getSpeed()/3.6);
                         dist = (Street.ACTUAL_STREET.length-1)/(myStreet.getStreetlights().size()-1);    // distanza tra i lampioni
                         int stopSpace = (int) ((speed*speed)/(2*coeff*decel)); // spazio frenata = (v*v)/(2*coeff*a)   [coeff = 0.05, 0.4, 0.8; a = g = 9.8m/s^2)
-                        //int securitySpace = (int) ((speed/3.6)*5);    // velocità * 5 secondi
-                        spaceToTurnOn = ((speed) + stopSpace);
+                        int securitySpace = (int) ((speed/3.6)*5);    // velocità * 5 secondi
+                        spaceToTurnOn = (stopSpace + securitySpace);
                         int lampToTurnOn = spaceToTurnOn/dist;
 
                         int index = super.position;
