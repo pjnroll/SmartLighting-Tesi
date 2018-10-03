@@ -228,15 +228,12 @@ public class Street implements Runnable {
 
             boolean empty = true;
             int cont = 0;
-            density = (int) Math.ceil(allCars.size()/(3600*OPERATIVE_HOURS));    // Auto al secondo; 39.600 = 3.600s * 11h, durata funzionamento del sistema
-            int densityMax = density;
-            int densityMin = density--;
             int tot = allCars.size();
             for (Sensor s : getSensors()) {
                 s.detect();
             }
 
-            // Divido le auto tra quelle in strada e quelle fuori dalla strada
+            // Separo le auto tra quelle in strada e quelle fuori dalla strada
             Iterator<Car> allCarsIt = allCars.iterator();
             while (allCarsIt.hasNext()) {
                 Car c = allCarsIt.next();
@@ -255,6 +252,10 @@ public class Street implements Runnable {
 
                 allCarsIt.remove();
             }
+
+            density = (int) Math.ceil(tot/(3600*OPERATIVE_HOURS)) +1;    // Auto al secondo; 39.600 = 3.600s * 11h, durata funzionamento del sistema
+            int densityMax = density;
+            int densityMin = density-1;
 
             do {
                 totalConsumption += getTotalWatts();   // Consumo in Ws

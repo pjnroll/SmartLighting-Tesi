@@ -11,12 +11,13 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class MainClass {
-    private final static int n_cars = 60000;
+    private final static int n_cars = 30000;
 
     public static void main(String args[]) {
         int n_streetlights = 577;
         int distance = 35;
         int streetLength = ((n_streetlights-1)*distance)+1;
+
         /**
          * Creo 20 lampade
          */
@@ -31,14 +32,6 @@ public class MainClass {
         Sensor[] ldrSensors = new Sensor[n_streetlights];
         for (int i = 0; i < n_streetlights; i++) {
             ldrSensors[i] = new Sensor(SENSOR_TYPE.LDR, ("LDR" + i), 0, 10);
-        }
-
-        /**
-         * Creo 20 sensori PIR
-         */
-        Sensor[] pirSensors = new Sensor[n_streetlights];
-        for (int i = 0; i < n_streetlights; i++) {
-            pirSensors[i] = new Sensor(SENSOR_TYPE.PIR, ("PIR"+i), 0, 20);
         }
 
         /**
@@ -57,7 +50,6 @@ public class MainClass {
             HashSet<Component> components = new HashSet<>();
             components.add(lamps[i]);
             components.add(ldrSensors[i]);
-            //components.add(pirSensors[i]);
             components.add(batteries[i]);
 
             controllers[i] = new Controller("CONTROLLER"+i, components);
