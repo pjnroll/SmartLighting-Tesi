@@ -17,8 +17,6 @@ public class Sensor extends Component implements Comparable<Sensor> {
     private int range;
     private int dist;
 
-    // TODO Gestire altri costruttori e le eccezioni
-
     /**
      * This let creating a Sensor, either a PIR or a LDR.
      * When a PIR sensor is created, min threshold is equal to 0 and max threshold is the max detection distance

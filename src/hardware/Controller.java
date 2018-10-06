@@ -21,8 +21,8 @@ public class Controller {
 
     /**
      * Full constructor
-     * @param name
-     * @param components
+     * @param name controller's brand
+     * @param components the components to be attached to the controller
      */
     public Controller(String name, HashSet<Component> components) {
         this(name);
@@ -32,7 +32,7 @@ public class Controller {
 
     /**
      * Empty constructor
-     * @param name
+     * @param name controller's brand
      */
     private Controller(String name) {
         id = count_id;

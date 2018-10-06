@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class MainClass {
-    private final static int n_cars = 30000;
+    private final static int n_cars = 32000;
 
     public static void main(String args[]) {
         int n_streetlights = 577;
@@ -19,7 +19,7 @@ public class MainClass {
         int streetLength = ((n_streetlights-1)*distance)+1;
 
         /**
-         * Creo 20 lampade
+         * Creo 577 lampade
          */
         Lamp[] lamps = new Lamp[n_streetlights];
         for (int i = 0; i < n_streetlights; i++) {
@@ -27,7 +27,7 @@ public class MainClass {
         }
 
         /**
-         * Creo 20 sensori LDR
+         * Creo 577 sensori LDR
          */
         Sensor[] ldrSensors = new Sensor[n_streetlights];
         for (int i = 0; i < n_streetlights; i++) {
@@ -35,7 +35,7 @@ public class MainClass {
         }
 
         /**
-         * Creo 20 batterie
+         * Creo 577 batterie
          */
         Battery[] batteries = new Battery[n_streetlights];
         for (int i = 0; i < n_streetlights; i++) {
@@ -43,7 +43,7 @@ public class MainClass {
         }
 
         /**
-         * Creo 20 controller a cui aggiungo le lampade, i sensori e le batterie
+         * Creo 577 controller a cui aggiungo le lampade, i sensori e le batterie
          */
         Controller[] controllers = new Controller[n_streetlights];
         for (int i = 0; i < n_streetlights; i++) {
@@ -56,7 +56,7 @@ public class MainClass {
         }
 
         /**
-         * Creo 20 lampioni a cui aggiungo i controller
+         * Creo 577 lampioni a cui aggiungo i controller
          */
         Streetlight[] streetlights = new Streetlight[n_streetlights];
         int position = 0;
