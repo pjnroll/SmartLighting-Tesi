@@ -21,10 +21,10 @@ public class Sensor extends Component implements Comparable<Sensor> {
      * This let creating a Sensor, either a PIR or a LDR.
      * When a PIR sensor is created, min threshold is equal to 0 and max threshold is the max detection distance
      * When a LDR sensor is created, it's going to have min and max threshold in which it works
-     * @param sensor_type
-     * @param name
-     * @param minThreshold
-     * @param maxThreshold
+     * @param sensor_type the sensor type
+     * @param name the sensor brand
+     * @param minThreshold the min sensor's threshold
+     * @param maxThreshold the max sensor's threshold
      */
     public Sensor(SENSOR_TYPE sensor_type, String name, int minThreshold, int maxThreshold) {
         id = count_id;
@@ -79,6 +79,9 @@ public class Sensor extends Component implements Comparable<Sensor> {
     }
     /********************/
 
+    /**
+     * Main algorithm
+     */
     public void detect() {
         boolean detected = false;
         int intensity = super.controller.getLamp().getIntensity();

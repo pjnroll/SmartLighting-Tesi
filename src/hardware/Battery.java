@@ -23,7 +23,7 @@ public class Battery extends Component {
         setController(null);
     }
 
-    /** GETTERS SETTERS */
+    /* GETTERS SETTERS */
     /**
      * Method that returns the battery's name
      * @param name battery's brand
